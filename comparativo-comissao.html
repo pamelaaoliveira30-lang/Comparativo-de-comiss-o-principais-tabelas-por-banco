@@ -306,20 +306,40 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
 #tip .tt-s{color:var(--ink-3);margin-bottom:3px}
 #tip .tt-r{color:var(--ink-2);font-variant-numeric:tabular-nums}
 #tip .tt-r b{color:var(--ink)}
+/* v2: prazos */
+.mx-none{color:var(--ink-3);font-size:13px}
+.mini figcaption{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.cap-note{font-family:var(--font-body);font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink-3);font-size:12.5px}
+.bc-none{fill:var(--ink-3);font-size:11px;font-family:var(--font-body)}
+table.pz{font-size:13.5px}
+table.pz th,table.pz td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top;white-space:nowrap}
+table.pz thead th{font-size:12px;font-weight:600;color:var(--ink-3);border-bottom:1px solid var(--line-strong);vertical-align:bottom;white-space:normal}
+table.pz th:first-child,table.pz td:first-child{text-align:left;padding-left:0}
+table.pz tbody th{font-weight:700;color:var(--ink);white-space:normal;min-width:9.5em}
+table.pz .sub{display:block;font-size:11.5px;font-weight:400;color:var(--ink-3);white-space:normal;line-height:1.3}
+table.pz td.acc{color:var(--accent-ink);font-weight:700}
+table.pz td.neg{color:var(--crit)}
+table.pz td.none{color:var(--ink-3);text-align:left}
+table.pz tbody tr:last-child th,table.pz tbody tr:last-child td{border-bottom:0}
+.dpanels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:24px 32px;margin-top:14px}
+.dpanels .panel,.dpanels .panel+.panel{padding:0;border:0}
+.tab-names.many{columns:2 220px;column-gap:24px;font-size:12.5px;font-weight:500}
+.data td.none{color:var(--ink-3)}
 </style>
 </head>
 <body>
 <div class="page">
   <header class="masthead">
-    <div class="eyebrow">INSS · 7 bancos · Margem Livre (Novo) e Port + Refin</div>
+    <div class="eyebrow">INSS · 7 bancos · Margem Livre (Novo) e Port + Refin · 96x e 108x</div>
     <h1>Comparativo de comissão — principais tabelas por banco</h1>
-    <p class="lede">Quanto recebemos, quanto repassamos aos parceiros e quanto fica para a empresa nas duas tabelas de maior comissão de cada banco. Todos os percentuais são os exatos da base, sem médias.</p>
+    <p class="lede">Quanto recebemos, quanto repassamos aos parceiros e quanto fica para a empresa nas tabelas de maior comissão de cada banco, nos prazos de 96x e 108x. Todos os percentuais são os exatos da base, sem médias.</p>
     <p class="asof" id="asof">Base Prazos_unificado de 07/10/2026</p>
   </header>
 
   <nav class="toolbar" aria-label="Filtros">
     <div class="filters">
       <div class="seg" id="f-prod" role="group" aria-label="Produto"></div>
+      <div class="seg" id="f-prazo" role="group" aria-label="Prazo"></div>
       <div class="chips" id="f-bank" role="group" aria-label="Bancos"></div>
     </div>
     <div class="tool-right">
@@ -333,9 +353,10 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
   <section class="info" aria-label="Critério e leitura">
     <div class="info-block">
       <h2>Critério de seleção</h2>
-      <p>Em cada banco, as duas tabelas analisadas são as de <strong>maior comissão recebida</strong> (Flat + Bônus + Adiantamento, na melhor condição da tabela): uma de <strong>Margem Livre (Novo)</strong> e uma de <strong>Port + Refin</strong>.</p>
+      <p>Em cada banco, produto e prazo, a tabela analisada é a de <strong>maior comissão recebida</strong> (Flat + Bônus + Adiantamento, na melhor condição): <strong>Margem Livre (Novo)</strong> e <strong>Port + Refin</strong>, cada um em <strong>96x</strong> e <strong>108x</strong>.</p>
       <ul>
         <li>Tabelas empatadas com os mesmos percentuais aparecem juntas.</li>
+        <li>Quando o banco não tem tabela no prazo, aparece “sem tabela neste prazo”: FOX, Happy e iCred não têm Port + Refin 96x, e o BMG não tem Port + Refin 108x.</li>
         <li>Sem cartão. Incidência (líquido, bruto, bruto-líquido) indicada em cada tabela; os percentuais são nominais.</li>
       </ul>
     </div>
@@ -353,8 +374,8 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
 
   <section class="section" id="tabelas">
     <div class="section-head">
-      <h2>As 14 tabelas analisadas</h2>
-      <p class="section-lede">Em cada banco, a tabela de maior comissão recebida em cada produto.</p>
+      <h2>As tabelas analisadas</h2>
+      <p class="section-lede">Em cada banco, a tabela de maior comissão recebida em cada produto e prazo.</p>
     </div>
     <div class="card"><div class="table-wrap"><table class="matrix" id="matrix"></table></div></div>
   </section>
@@ -362,14 +383,14 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
   <section class="section" id="bancos">
     <div class="section-head">
       <h2>Comparativo por banco</h2>
-      <p class="section-lede">Os 7 bancos lado a lado, na tabela de maior comissão de cada produto. Passe o mouse ou toque numa coluna para ver a tabela e a composição.</p>
+      <p class="section-lede">Os 7 bancos lado a lado, em 96x e 108x. Passe o mouse ou toque numa coluna para ver a tabela e a composição.</p>
     </div>
 
     <div class="card">
       <div class="chart-head">
         <div class="chart-kicker">Recebido, repassado e margem total</div>
-        <div class="chart-title" id="bc1-title"></div>
-        <p class="chart-sub">Altura da coluna = comissão recebida (Flat + Bônus + Adiantamento). Em cinza o que repassamos ao parceiro; em azul a margem total que fica com a empresa, com o valor em p.p. acima.</p>
+        <div class="chart-title">Comissão recebida por banco, em 96x e 108x</div>
+        <p class="chart-sub">Altura da coluna = comissão recebida (Flat + Bônus + Adiantamento). Em cinza o que repassamos ao parceiro; em azul a margem total que fica com a empresa, com o valor em p.p. acima. Os quatro gráficos usam a mesma escala.</p>
       </div>
       <ul class="legend"><li><span class="sw rep"></span>Repassado ao parceiro</li><li><span class="sw mg"></span>Margem total da empresa</li></ul>
       <div class="mini-grid" id="bc1" role="list" aria-label="Comissão recebida, repassada e margem por banco"></div>
@@ -378,7 +399,7 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
     <div class="card">
       <div class="chart-head">
         <div class="chart-kicker">Margem de flat · Flat recebido − Flat repassado</div>
-        <div class="chart-title" id="bc2-title"></div>
+        <div class="chart-title">Margem de flat por banco, em 96x e 108x</div>
         <p class="chart-sub">Fica negativa quando o flat pago ao parceiro é maior que o flat recebido; nesses casos a diferença é coberta pelo bônus ou pelo adiantamento recebidos.</p>
       </div>
       <ul class="legend"><li><span class="sw mg"></span>Positiva: fica com a empresa</li><li><span class="sw over"></span>Negativa: flat repassado acima do recebido</li></ul>
@@ -387,7 +408,7 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
 
     <div class="section-head sub">
       <h3>Conclusão por banco</h3>
-      <p class="section-lede">Tabela 1 é Margem Livre (Novo) e Tabela 2 é Port + Refin. Os números mostram a condição de maior comissão; abra “Ver todas as condições” para os percentuais de cada prazo.</p>
+      <p class="section-lede">Tabela 1 é Margem Livre (Novo) e Tabela 2 é Port + Refin, cada uma em 96x e 108x. Os números mostram a condição de maior comissão em cada prazo; abra “Ver todas as condições” para o detalhe.</p>
     </div>
     <div class="bank-list" id="bank-list"></div>
   </section>
@@ -402,7 +423,7 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
       <div class="chart-head">
         <div class="chart-kicker">1º ranking · Maior comissão recebida</div>
         <div class="chart-title" id="c1-title"></div>
-        <p class="chart-sub">Comissão recebida (Flat + Bônus + Adiantamento) dividida entre o que repassamos e o que fica com a empresa, na condição de maior comissão de cada tabela.</p>
+        <p class="chart-sub">Comissão recebida (Flat + Bônus + Adiantamento) dividida entre o que repassamos e o que fica com a empresa, na condição de maior comissão de cada tabela e prazo.</p>
       </div>
       <ul class="legend"><li><span class="sw rep"></span>Repassado ao parceiro</li><li><span class="sw mg"></span>Margem total da empresa</li></ul>
       <div id="chart1" role="list" aria-label="Ranking de comissão recebida"></div>
@@ -419,8 +440,8 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
     <div class="card">
       <div class="chart-head">
         <div class="chart-kicker">Visão executiva</div>
-        <div class="chart-title">As 14 tabelas lado a lado</div>
-        <p class="chart-sub">Condição de maior comissão de cada tabela. Clique no título de uma coluna para ordenar.</p>
+        <div class="chart-title">As tabelas lado a lado, em 96x e 108x</div>
+        <p class="chart-sub">Condição de maior comissão de cada tabela e prazo. Clique no título de uma coluna para ordenar.</p>
       </div>
       <div class="table-wrap"><table class="data" id="exec"></table></div>
     </div>
@@ -428,7 +449,7 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
     <div class="card">
       <div class="chart-head">
         <div class="chart-kicker">Análise de repasse</div>
-        <div class="chart-title" id="rp-title">Quanto da comissão recebida vai para o parceiro</div>
+        <div class="chart-title">Quanto da comissão recebida vai para o parceiro</div>
         <p class="chart-sub">Ordenado pelo repasse do flat (Flat repassado ÷ Flat recebido). As barras vão de 0% a 210%, com marca em 100%.</p>
       </div>
       <ul class="legend"><li><span class="sw mg"></span>Até 100% do recebido</li><li><span class="sw over"></span>Acima de 100% (pagamos mais do que recebemos naquela parcela)</li><li><span class="sw line"></span>100%</li></ul>
@@ -438,28 +459,29 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
     <div class="card">
       <div class="chart-head">
         <div class="chart-kicker">Comparação direta</div>
-        <p class="small-note">Os textos abaixo e a conclusão consideram as 14 tabelas, qualquer que seja o filtro.</p>
+        <p class="small-note">Os textos abaixo e a conclusão consideram as 24 tabelas (7 bancos, 2 produtos, 96x e 108x), qualquer que seja o filtro.</p>
       </div>
       <div class="qa">
         <div class="qa-item">
           <div class="qa-q">Qual banco paga a melhor comissão?</div>
-          <p class="qa-a">Em <strong>Margem Livre</strong> há empate técnico: de 12,50% a 13,05% (BMG 13,05% na faixa de bônus mais alta; FOX, Happy e iCred 13,00%). A diferença está em <strong>Port + Refin</strong>: a C6 paga 9,00%, 1,50 p.p. acima de FOX e Qualibanking (7,50%). Considerando as duas tabelas, <strong>C6 BANK</strong> tem as melhores condições: lidera Port + Refin e fica a 0,10 p.p. do topo em Margem Livre.</p>
+          <p class="qa-a">Em <strong>Margem Livre 108x</strong> há empate técnico: de 12,50% a 13,05% (BMG 13,05% na faixa de bônus mais alta). <strong>No 96x a diferença aparece</strong>: FACTA, FOX e Happy pagam 11,00%, Qualibanking 10,50%, BMG 8,15%, iCred 8,00% e C6 só 6,45%. Em <strong>Port + Refin</strong> a <strong>C6</strong> lidera nos dois prazos (8,50% no 96x e 9,00% no 108x). Nenhum banco é o melhor em tudo: a C6 lidera Port + Refin, mas é a última em Margem Livre 96x.</p>
         </div>
         <div class="qa-item">
           <div class="qa-q">Qual banco deixa maior margem para a empresa?</div>
-          <p class="qa-a">Pela fórmula Flat recebido − Flat repassado, a <strong>FOX DIGITAL</strong>: 1,50 p.p. nas duas tabelas. Em Margem Livre, quatro bancos ficam negativos nessa conta (BMG −6,05; iCred −6,00; C6 −5,95; FACTA −5,70 p.p.), porque o flat do parceiro inclui adiantamento e bônus. Pela margem total, a maior é a <strong>C6 Port + Refin</strong> (1,75 p.p.), seguida das duas tabelas da FOX (1,50 p.p.).</p>
+          <p class="qa-a">Pela fórmula Flat recebido − Flat repassado, a <strong>FOX DIGITAL</strong>: 1,50 p.p. em todas as tabelas (Margem Livre 96x e 108x, Port + Refin 108x). Em Margem Livre, FACTA, BMG, C6 e iCred ficam negativos nos dois prazos, porque o flat do parceiro inclui adiantamento e bônus. Pela margem total, a maior é a <strong>C6 Port + Refin</strong> (1,75 p.p. no 96x e no 108x), seguida da FOX (1,50 p.p.).</p>
         </div>
         <div class="qa-item wide">
           <div class="qa-q">Onde estamos repassando mais proporcionalmente?</div>
-          <p class="qa-a">Pelo flat (Flat repassado ÷ Flat recebido), na <strong>Margem Livre de BMG (200,83%), iCred (200,00%), C6 (199,17%) e FACTA (195,00%)</strong> e em iCred Port + Refin (104,17%): nelas o flat pago supera o recebido. A Qualibanking Margem Livre repassa exatamente 100,00% do flat. Sobre o total recebido, o maior repasse é de 92,34% (BMG Margem Livre).</p>
+          <p class="qa-a">Pelo flat (Flat repassado ÷ Flat recebido), no <strong>108x</strong>: Margem Livre de BMG (200,83%), iCred (200,00%), C6 (199,17%) e FACTA (195,00%), e iCred Port + Refin (104,17%). No <strong>96x</strong>: Margem Livre de FACTA (166,67%), BMG (119,17%), iCred (116,67%) e C6 (103,81%). Nessas tabelas o flat pago supera o recebido. A Qualibanking Margem Livre 108x repassa exatamente 100,00% do flat. Sobre o total recebido, o maior repasse é de 92,34% (BMG Margem Livre 108x).</p>
         </div>
         <div class="qa-item wide">
           <div class="qa-q">Onde está a maior oportunidade de negociação?</div>
-          <div class="qa-a">Pelos percentuais, três pontos combinam repasse alto e margem baixa:
+          <div class="qa-a">Pelos percentuais, quatro pontos combinam repasse alto e margem baixa:
             <ol>
-              <li><strong>Qualibanking Margem Livre</strong>: 100% do flat repassado; a margem de 1,00 p.p. depende só do bônus.</li>
-              <li><strong>Margem Livre de BMG, iCred, C6 e FACTA</strong>: repassamos cerca de 92% do que recebemos, e o flat do parceiro só fecha com bônus e adiantamento.</li>
-              <li><strong>Happy Port + Refin</strong>: margem de flat de 0,30 p.p. (95,00% do flat repassado).</li>
+              <li><strong>Qualibanking Margem Livre 108x</strong>: 100% do flat repassado; a margem de 1,00 p.p. depende só do bônus.</li>
+              <li><strong>Margem Livre 108x de BMG, iCred, C6 e FACTA</strong>: repassamos cerca de 92% do que recebemos, e o flat do parceiro só fecha com bônus e adiantamento.</li>
+              <li><strong>FACTA Margem Livre 96x</strong>: o flat repassado (10,00%) é 166,67% do flat recebido (6,00%).</li>
+              <li><strong>Happy Port + Refin 108x</strong>: margem de flat de 0,30 p.p. (95,00% do flat repassado).</li>
             </ol>
           </div>
         </div>
@@ -470,12 +492,12 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
   <section class="concl" id="conclusao">
     <h2>Conclusão executiva</h2>
     <ol>
-      <li><strong>Tabelas:</strong> as 2 tabelas de cada banco são as de maior comissão em Margem Livre (Novo) e em Port + Refin (quadro no topo).</li>
-      <li><strong>Melhor comissão:</strong> em Margem Livre os bancos empatam entre 12,50% e 13,05%; em Port + Refin a C6 lidera com 9,00%.</li>
-      <li><strong>Maior margem:</strong> FOX, com 1,50 p.p. nas duas tabelas; a maior margem total isolada é a da C6 Port + Refin (1,75 p.p.).</li>
-      <li><strong>Padrão:</strong> em 10 das 14 tabelas a margem total é de 1,00 p.p.; quanto maior a comissão, maior a fatia repassada (até 92% em Margem Livre).</li>
-      <li><strong>Repasse elevado:</strong> na Margem Livre de BMG, iCred, C6 e FACTA o flat pago ao parceiro é cerca do dobro do flat recebido; a Qualibanking repassa 100% do flat.</li>
-      <li><strong>Renegociar:</strong> avaliar Qualibanking Margem Livre, a Margem Livre de BMG, iCred, C6 e FACTA e a Happy Port + Refin.</li>
+      <li><strong>Tabelas:</strong> em cada banco, a de maior comissão em Margem Livre (Novo) e em Port + Refin, separada em 96x e 108x. FOX, Happy e iCred não têm Port + Refin 96x na base, e o BMG não tem Port + Refin 108x.</li>
+      <li><strong>Melhor comissão:</strong> em Margem Livre 108x os bancos empatam entre 12,50% e 13,05%; no 96x vai de 6,45% (C6) a 11,00% (FACTA, FOX e Happy). Em Port + Refin a C6 lidera nos dois prazos (8,50% e 9,00%).</li>
+      <li><strong>Maior margem:</strong> FOX, com 1,50 p.p. em todas as tabelas; a maior margem total é a da C6 Port + Refin (1,75 p.p. nos dois prazos).</li>
+      <li><strong>Padrão:</strong> em 17 das 24 tabelas a margem total é de 1,00 p.p.; quanto maior a comissão, maior a fatia repassada (até 92% em Margem Livre 108x).</li>
+      <li><strong>Repasse elevado:</strong> na Margem Livre de BMG, iCred, C6 e FACTA o flat pago ao parceiro supera o recebido nos dois prazos e chega a cerca do dobro no 108x; a Qualibanking repassa 100% do flat na Margem Livre 108x.</li>
+      <li><strong>Renegociar:</strong> avaliar Qualibanking Margem Livre 108x, a Margem Livre de BMG, iCred, C6 e FACTA (sobretudo 108x), a FACTA Margem Livre 96x e a Happy Port + Refin 108x.</li>
     </ol>
   </section>
 
@@ -487,17 +509,16 @@ footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padd
 <div id="tip" role="tooltip" hidden></div>
 
 <script>
-const D = {"meta":{"file":"Prazos_unificado_07_10_2026.csv","nRaw":817,"nDup":5,"nRows":812,"nTab":524,"conv":["INSS"],"date":"07/10/2026"},"banks":[{"key":"facta","name":"FACTA","baseName":"FACTA FINANCEIRA","order":1,"concl":"Nas duas tabelas a FACTA deixa 1,00 p.p. de margem total. Em Margem Livre o flat repassado (11,70% no 108x) é quase o dobro do flat recebido (6,00%) e só fecha com os 6,70% de adiantamento: repassamos 92,13% de tudo o que recebemos. É a tabela da FACTA que mais merece revisão."},{"key":"fox","name":"FOX DIGITAL","baseName":"FOX DIGITAL","order":2,"concl":"Única com 1,50 p.p. de margem nas duas tabelas, toda em flat, sem bônus nem adiantamento. Repassamos 88,46% em Margem Livre e 80,00% em Port + Refin. É a maior margem de flat entre as 14 tabelas."},{"key":"happy","name":"BANCO HAPPY CONSIG","baseName":"BANCO HAPPY CONSIG","order":3,"concl":"Margem total de 1,20 p.p. em Margem Livre e 1,00 p.p. em Port + Refin, mas só 0,50 e 0,30 p.p. vêm do flat; o resto é o bônus de 0,70%. Em Port + Refin repassamos 95,00% do flat: é a menor margem de flat positiva da análise."},{"key":"quali","name":"QUALIBANKING","baseName":"QUALIBANKING","order":4,"concl":"Em Margem Livre repassamos 100% do flat (11,50% recebido e repassado), e a margem de 1,00 p.p. vem inteira do bônus. Em Port + Refin retemos 0,50 p.p. de flat mais 0,50 p.p. de bônus. Margem Livre é o ponto de atenção: sem o bônus, a margem seria zero."},{"key":"bmg","name":"BMG","baseName":"BANCO BMG","order":5,"concl":"Maior comissão de Margem Livre (13,05% na faixa de bônus mais alta) e menor de Port + Refin (4,00%). Em Margem Livre o flat repassado acompanha o bônus e chega a 12,05%, o dobro do flat recebido; a margem total fica em 1,00 p.p. nas três faixas. Em Port + Refin retemos 1,00 p.p. sobre 4,00% (repasse de 75,00%)."},{"key":"c6","name":"C6 BANK","baseName":"BANCO C6 BANK","order":6,"concl":"Maior comissão de Port + Refin (9,00%: 6,00% de flat e 3,00% de adiantamento) e maior margem total da análise nessa tabela, 1,75 p.p. (1,00 de flat e 0,75 de adiantamento). Em Margem Livre a margem total é de 1,00 p.p., com flat repassado de 11,95% sobre 6,00% recebido."},{"key":"icred","name":"ICRED","baseName":"ICRED FINANCEIRA","order":7,"concl":"Nas duas tabelas a iCred deixa 1,00 p.p. de margem total. Em Margem Livre o flat repassado chega a 12,00% sobre 6,00% de flat recebido, coberto pelo adiantamento de 7,00%. Em Port + Refin a margem de flat vai de 0,90 p.p. (condição A) a −0,25 p.p. (condição D, com 1,00% de adiantamento)."}],"sel":[{"id":"facta-ml","bankKey":"facta","bank":"FACTA","order":1,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["68675 - SMART 2 - 90D - (Acima de R$ 20.000,01) - Clientes com até 67"],"short":"68675 SMART 2 90D","incid":"líquido","nTablesOp":17,"rows":[{"label":"96x","prazo":96,"FR":6.0,"BR":0.0,"AR":5.0,"FP":10.0,"AP":0.0,"TR":11.0,"TP":10.0,"mg_flat":-4.0,"mg_adi":5.0,"mg_tot":1.0,"rep_flat":166.66666666666669,"rep_tot":90.9090909090909},{"label":"108x","prazo":108,"FR":6.0,"BR":0.0,"AR":6.7,"FP":11.7,"AP":0.0,"TR":12.7,"TP":11.7,"mg_flat":-5.7,"mg_adi":6.7,"mg_tot":1.0,"rep_flat":195.0,"rep_tot":92.1259842519685}],"head":"108x","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido"}],"notes":[]},{"id":"facta-rp","bankKey":"facta","bank":"FACTA","order":1,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["65480 - Refin da Port - NORMAL (90D) - Maior de 12 pagas - GRUPO 5 - ACIMA DE R$14.000,00"],"short":"65480 Refin Port NORMAL 90D G5","incid":"bruto","nTablesOp":108,"rows":[{"label":"96x","prazo":96,"FR":5.4,"BR":0.0,"AR":0.0,"FP":4.4,"AP":0.0,"TR":5.4,"TP":4.4,"mg_flat":1.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":81.4814814814815,"rep_tot":81.4814814814815},{"label":"108x","prazo":108,"FR":6.9,"BR":0.0,"AR":0.0,"FP":5.9,"AP":0.0,"TR":6.9,"TP":5.9,"mg_flat":1.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":85.5072463768116,"rep_tot":85.5072463768116}],"head":"108x","flags":[],"notes":[]},{"id":"fox-ml","bankKey":"fox","bank":"FOX DIGITAL","order":2,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["INSS NOVO 25MIL - CARÊNCIA"],"short":"INSS NOVO 25MIL - CARÊNCIA","incid":"líquido","nTablesOp":6,"rows":[{"label":"108x","prazo":108,"FR":13.0,"BR":0.0,"AR":0.0,"FP":11.5,"AP":0.0,"TR":13.0,"TP":11.5,"mg_flat":1.5,"mg_adi":0.0,"mg_tot":1.5,"rep_flat":88.46153846153845,"rep_tot":88.46153846153845}],"head":"108x","flags":[],"notes":[]},{"id":"fox-rp","bankKey":"fox","bank":"FOX DIGITAL","order":2,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["PORT + REFIN 1,85 - CARÊNCIA"],"short":"PORT + REFIN 1,85 - CARÊNCIA","incid":"bruto","nTablesOp":6,"rows":[{"label":"108x","prazo":108,"FR":7.5,"BR":0.0,"AR":0.0,"FP":6.0,"AP":0.0,"TR":7.5,"TP":6.0,"mg_flat":1.5,"mg_adi":0.0,"mg_tot":1.5,"rep_flat":80.0,"rep_tot":80.0}],"head":"108x","flags":[],"notes":[]},{"id":"happy-ml","bankKey":"happy","bank":"BANCO HAPPY CONSIG","order":3,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["HAPPY - MARGEM LIVRE - 1,85%"],"short":"MARGEM LIVRE - 1,85%","incid":"líquido","nTablesOp":2,"rows":[{"label":"96x · A","prazo":96,"FR":10.05,"BR":0.7,"AR":0.0,"FP":9.55,"AP":0.0,"TR":10.75,"TP":9.55,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.02487562189054,"rep_tot":88.83720930232559},{"label":"96x · B","prazo":96,"FR":10.3,"BR":0.7,"AR":0.0,"FP":9.8,"AP":0.0,"TR":11.0,"TP":9.8,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.14563106796116,"rep_tot":89.0909090909091},{"label":"108x · A","prazo":108,"FR":11.8,"BR":0.7,"AR":0.0,"FP":11.3,"AP":0.0,"TR":12.5,"TP":11.3,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.76271186440678,"rep_tot":90.4},{"label":"108x · B","prazo":108,"FR":12.3,"BR":0.7,"AR":0.0,"FP":11.8,"AP":0.0,"TR":13.0,"TP":11.8,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.9349593495935,"rep_tot":90.76923076923077}],"head":"108x · B","flags":[{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"happy-rp","bankKey":"happy","bank":"BANCO HAPPY CONSIG","order":3,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["HAPPY - PORT+REFIN - 1,85%"],"short":"PORT+REFIN - 1,85%","incid":"bruto","nTablesOp":17,"rows":[{"label":"108x · A","prazo":108,"FR":3.0,"BR":0.7,"AR":0.0,"FP":2.7,"AP":0.0,"TR":3.7,"TP":2.7,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":90.0,"rep_tot":72.97297297297297},{"label":"108x · B","prazo":108,"FR":4.0,"BR":0.7,"AR":0.0,"FP":3.7,"AP":0.0,"TR":4.7,"TP":3.7,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":92.5,"rep_tot":78.72340425531915},{"label":"108x · C","prazo":108,"FR":4.9,"BR":0.7,"AR":0.0,"FP":4.6,"AP":0.0,"TR":5.6,"TP":4.6,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":93.87755102040815,"rep_tot":82.14285714285714},{"label":"108x · D","prazo":108,"FR":6.0,"BR":0.7,"AR":0.0,"FP":5.7,"AP":0.0,"TR":6.7,"TP":5.7,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":95.0,"rep_tot":85.07462686567165}],"head":"108x · D","flags":[{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"quali-ml","bankKey":"quali","bank":"QUALIBANKING","order":4,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["000613 NOVO CARÊNCIA 90D 108X 1,85% - 1093","000614 ENTRANTE CARÊNCIA 90D 108X 1,85% - 1094","000618 NOVO AUMENTO CAR 90D 108X 1,85%"],"short":"000613 / 000614 / 000618","incid":"líquido","nTablesOp":32,"rows":[{"label":"108x","prazo":108,"FR":11.5,"BR":1.0,"AR":0.0,"FP":11.5,"AP":0.0,"TR":12.5,"TP":11.5,"mg_flat":0.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":100.0,"rep_tot":92.0}],"head":"108x","flags":[{"kind":"warn","text":"100% do flat repassado"},{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["As tabelas listadas têm percentuais idênticos e aparecem juntas."]},{"id":"quali-rp","bankKey":"quali","bank":"QUALIBANKING","order":4,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["000418 PORT + REFIN 1,85% 108X S/ SEG MIN 6 MIL CAR 90D"],"short":"000418 PORT + REFIN 1,85%","incid":"bruto","nTablesOp":70,"rows":[{"label":"108x","prazo":108,"FR":7.0,"BR":0.5,"AR":0.0,"FP":6.5,"AP":0.0,"TR":7.5,"TP":6.5,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":92.85714285714286,"rep_tot":86.66666666666667}],"head":"108x","flags":[{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":[]},{"id":"bmg-ml","bankKey":"bmg","bank":"BMG","order":5,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["BMG - INSS NORMAL DG TK 90C 108X - 5250"],"short":"5250 INSS NORMAL DG TK 90C","incid":"líquido","nTablesOp":10,"rows":[{"label":"108x · A","prazo":108,"FR":6.0,"BR":1.5,"AR":1.8,"FP":8.3,"AP":0.0,"TR":9.3,"TP":8.3,"mg_flat":-2.3,"mg_adi":1.8,"mg_tot":1.0,"rep_flat":138.33333333333334,"rep_tot":89.24731182795699},{"label":"108x · B","prazo":108,"FR":6.0,"BR":3.25,"AR":1.8,"FP":10.05,"AP":0.0,"TR":11.05,"TP":10.05,"mg_flat":-4.05,"mg_adi":1.8,"mg_tot":1.0,"rep_flat":167.5,"rep_tot":90.9502262443439},{"label":"108x · C","prazo":108,"FR":6.0,"BR":5.25,"AR":1.8,"FP":12.05,"AP":0.0,"TR":13.05,"TP":12.05,"mg_flat":-6.05,"mg_adi":1.8,"mg_tot":1.0,"rep_flat":200.83333333333334,"rep_tot":92.33716475095785}],"head":"108x · C","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido"},{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"bmg-rp","bankKey":"bmg","bank":"BMG","order":5,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["INSS REF PORT FLEX 1 DIGITAL - 9000/9062"],"short":"9000/9062 REF PORT FLEX 1","incid":"líquido","nTablesOp":2,"rows":[{"label":"96x","prazo":96,"FR":4.0,"BR":0.0,"AR":0.0,"FP":3.0,"AP":0.0,"TR":4.0,"TP":3.0,"mg_flat":1.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":75.0,"rep_tot":75.0}],"head":"96x","flags":[],"notes":[]},{"id":"c6-ml","bankKey":"c6","bank":"C6 BANK","order":6,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["Tkt > 20k (+90d Car)-DWeb-ML - 210415","Tkt > 20k (+90d Car)-Plus-ML - 210439"],"short":"210415 / 210439 Tkt > 20k","incid":"líquido","nTablesOp":104,"rows":[{"label":"96x","prazo":96,"FR":5.25,"BR":1.2,"AR":0.0,"FP":5.45,"AP":0.0,"TR":6.45,"TP":5.45,"mg_flat":-0.2,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":103.80952380952382,"rep_tot":84.49612403100775},{"label":"108x","prazo":108,"FR":6.0,"BR":1.2,"AR":5.75,"FP":11.95,"AP":0.0,"TR":12.95,"TP":11.95,"mg_flat":-5.95,"mg_adi":5.75,"mg_tot":1.0,"rep_flat":199.16666666666666,"rep_tot":92.27799227799228}],"head":"108x","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido"},{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["As tabelas listadas têm percentuais idênticos e aparecem juntas."]},{"id":"c6-rp","bankKey":"c6","bank":"C6 BANK","order":6,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["C6 - Tx1,850~1,78 (+30d Car) Normal-Plus-RfnP - 240198","C6 - Tx1,850~1,78 (+30d Car) Normal-Web-RfnP - 240178","C6 - Tx1,850~1,78 (+90d Car) Normal-Plus-RfnP - 240200","C6 - Tx1,850~1,78 (+90d Car) Normal-Web-RfnP - 240180"],"short":"240178 / 240198 / 240180 / 240200","incid":"bruto-líquido","nTablesOp":29,"rows":[{"label":"96x","prazo":96,"FR":5.5,"BR":0.0,"AR":3.0,"FP":4.5,"AP":2.25,"TR":8.5,"TP":6.75,"mg_flat":1.0,"mg_adi":0.75,"mg_tot":1.75,"rep_flat":81.81818181818183,"rep_tot":79.41176470588235},{"label":"108x","prazo":108,"FR":6.0,"BR":0.0,"AR":3.0,"FP":5.0,"AP":2.25,"TR":9.0,"TP":7.25,"mg_flat":1.0,"mg_adi":0.75,"mg_tot":1.75,"rep_flat":83.33333333333334,"rep_tot":80.55555555555556}],"head":"108x","flags":[],"notes":["As tabelas listadas empatam na maior comissão e têm os mesmos percentuais nos prazos em comum.","96x: condição presente só em C6 - Tx1,850~1,78 (+30d Car) Normal-Web-RfnP - 240178."]},{"id":"icred-ml","bankKey":"icred","bank":"ICRED","order":7,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["INSS - NOVO - NORMAL","INSS - NOVO - NORMAL - 90D"],"short":"INSS - NOVO - NORMAL (+ 90D)","incid":"líquido","nTablesOp":8,"rows":[{"label":"96x","prazo":96,"FR":6.0,"BR":0.0,"AR":2.0,"FP":7.0,"AP":0.0,"TR":8.0,"TP":7.0,"mg_flat":-1.0,"mg_adi":2.0,"mg_tot":1.0,"rep_flat":116.66666666666667,"rep_tot":87.5},{"label":"108x · A","prazo":108,"FR":6.0,"BR":0.0,"AR":6.0,"FP":11.0,"AP":0.0,"TR":12.0,"TP":11.0,"mg_flat":-5.0,"mg_adi":6.0,"mg_tot":1.0,"rep_flat":183.33333333333331,"rep_tot":91.66666666666666},{"label":"108x · B","prazo":108,"FR":6.0,"BR":0.0,"AR":7.0,"FP":12.0,"AP":0.0,"TR":13.0,"TP":12.0,"mg_flat":-6.0,"mg_adi":7.0,"mg_tot":1.0,"rep_flat":200.0,"rep_tot":92.3076923076923}],"head":"108x · B","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido"}],"notes":["As tabelas listadas empatam na maior comissão e têm os mesmos percentuais nos prazos em comum.","96x: condição presente só em INSS - NOVO - NORMAL.","A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"icred-rp","bankKey":"icred","bank":"ICRED","order":7,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["INSS - PORT + REFIN - NORMAL"],"short":"INSS - PORT + REFIN - NORMAL","incid":"bruto","nTablesOp":14,"rows":[{"label":"108x · A","prazo":108,"FR":3.0,"BR":0.1,"AR":0.0,"FP":2.1,"AP":0.0,"TR":3.1,"TP":2.1,"mg_flat":0.9,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":70.0,"rep_tot":67.74193548387098},{"label":"108x · B","prazo":108,"FR":4.5,"BR":0.2,"AR":0.0,"FP":3.7,"AP":0.0,"TR":4.7,"TP":3.7,"mg_flat":0.8,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":82.22222222222223,"rep_tot":78.72340425531915},{"label":"108x · C","prazo":108,"FR":6.0,"BR":0.25,"AR":0.0,"FP":5.25,"AP":0.0,"TR":6.25,"TP":5.25,"mg_flat":0.75,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":87.5,"rep_tot":84.0},{"label":"108x · D","prazo":108,"FR":6.0,"BR":0.25,"AR":1.0,"FP":6.25,"AP":0.0,"TR":7.25,"TP":6.25,"mg_flat":-0.25,"mg_adi":1.0,"mg_tot":1.0,"rep_flat":104.16666666666667,"rep_tot":86.20689655172413}],"head":"108x · D","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido (108x · D)"},{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]}]};
+const D = {"meta":{"file":"Prazos_unificado_07_10_2026.csv","nRaw":817,"nDup":5,"nRows":812,"nTab":524,"conv":["INSS"],"date":"07/10/2026"},"banks":[{"key":"facta","name":"FACTA","order":1,"concl":"Margem total de 1,00 p.p. nas quatro tabelas (Margem Livre e Port + Refin, 96x e 108x). Em Margem Livre o flat repassado supera o recebido nos dois prazos (margem de flat de −4,00 p.p. no 96x e −5,70 p.p. no 108x), coberto pelo adiantamento: repassamos 90,91% e 92,13% do total recebido. Port + Refin paga 5,40% no 96x e 6,90% no 108x, com 1,00 p.p. de margem de flat."},{"key":"fox","name":"FOX DIGITAL","order":2,"concl":"Margem de 1,50 p.p., toda em flat, em todas as tabelas: Margem Livre 96x (11,00%), Margem Livre 108x (13,00%) e Port + Refin 108x (7,50%). A FOX não tem tabela de Port + Refin em 96x na base. É a maior margem de flat da análise."},{"key":"happy","name":"BANCO HAPPY CONSIG","order":3,"concl":"Margem total de 1,20 p.p. em Margem Livre (96x e 108x) e de 1,00 p.p. em Port + Refin 108x, mas só 0,50 e 0,30 p.p. vêm do flat; o resto é o bônus de 0,70%. Em Port + Refin repassamos 95,00% do flat. A Happy não tem tabela de Port + Refin em 96x na base."},{"key":"quali","name":"QUALIBANKING","order":4,"concl":"Em Margem Livre 108x repassamos 100% do flat (11,50%), e a margem de 1,00 p.p. vem toda do bônus; no 96x retemos 0,50 p.p. de flat mais 0,50 de bônus. Em Port + Refin a margem também é de 1,00 p.p. (0,50 de flat e 0,50 de bônus) no 96x e no 108x. Margem Livre 108x é o ponto de atenção."},{"key":"bmg","name":"BMG","order":5,"concl":"Maior comissão de Margem Livre 108x (13,05% na faixa de bônus mais alta), mas no 96x cai para 8,15%. Em Margem Livre o flat repassado supera o recebido nos dois prazos (margem de flat de −1,15 p.p. no 96x e −6,05 p.p. no 108x), e a margem total fica em 1,00 p.p. Port + Refin só existe em 96x na base: 4,00% recebido e 1,00 p.p. de margem (repasse de 75,00%)."},{"key":"c6","name":"C6 BANK","order":6,"concl":"Maior comissão de Port + Refin nos dois prazos (8,50% no 96x e 9,00% no 108x) e a maior margem total da análise, 1,75 p.p. (1,00 de flat e 0,75 de adiantamento). Em Margem Livre a diferença entre prazos é grande: 6,45% no 96x e 12,95% no 108x, com margem total de 1,00 p.p. nos dois."},{"key":"icred","name":"ICRED","order":7,"concl":"Margem total de 1,00 p.p. em todas as tabelas. Em Margem Livre o flat repassado supera o recebido nos dois prazos (−1,00 p.p. no 96x e −6,00 p.p. no 108x), coberto pelo adiantamento (2,00% e 7,00%). Port + Refin só existe em 108x na base, com margem de flat entre 0,90 p.p. (condição A) e −0,25 p.p. (condição D)."}],"sel":[{"id":"facta-ml-96","bankKey":"facta","bank":"FACTA","order":1,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":96,"tables":["66133 - LIGHT - 90D (Abaixo de R$1.500,00 - Parcela Mín. R$23,00) - Clientes com até 67 anos","68675 - SMART 2 - 90D - (Acima de R$ 20.000,01) - Clientes com até 67","68683 - SMART 1 - 90D - (De R$1.500,01 a R$20.000,00) - Clientes com até 67"],"short":"66133 / 68675 / 68683 (90D)","incid":"líquido","rows":[{"label":"96x","prazo":96,"FR":6.0,"BR":0.0,"AR":5.0,"FP":10.0,"AP":0.0,"TR":11.0,"TP":10.0,"mg_flat":-4.0,"mg_adi":5.0,"mg_tot":1.0,"rep_flat":166.66666666666669,"rep_tot":90.9090909090909}],"head":"96x","notes":["As tabelas listadas têm os mesmos percentuais neste prazo e aparecem juntas."]},{"id":"facta-ml-108","bankKey":"facta","bank":"FACTA","order":1,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":108,"tables":["68675 - SMART 2 - 90D - (Acima de R$ 20.000,01) - Clientes com até 67"],"short":"68675 SMART 2 90D","incid":"líquido","rows":[{"label":"108x","prazo":108,"FR":6.0,"BR":0.0,"AR":6.7,"FP":11.7,"AP":0.0,"TR":12.7,"TP":11.7,"mg_flat":-5.7,"mg_adi":6.7,"mg_tot":1.0,"rep_flat":195.0,"rep_tot":92.1259842519685}],"head":"108x","notes":[]},{"id":"facta-rp-96","bankKey":"facta","bank":"FACTA","order":1,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":96,"tables":["65480 - Refin da Port - NORMAL (90D) - Maior de 12 pagas - GRUPO 5 - ACIMA DE R$14.000,00"],"short":"65480 Refin Port NORMAL 90D G5","incid":"bruto","rows":[{"label":"96x","prazo":96,"FR":5.4,"BR":0.0,"AR":0.0,"FP":4.4,"AP":0.0,"TR":5.4,"TP":4.4,"mg_flat":1.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":81.4814814814815,"rep_tot":81.4814814814815}],"head":"96x","notes":[]},{"id":"facta-rp-108","bankKey":"facta","bank":"FACTA","order":1,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":108,"tables":["65480 - Refin da Port - NORMAL (90D) - Maior de 12 pagas - GRUPO 5 - ACIMA DE R$14.000,00"],"short":"65480 Refin Port NORMAL 90D G5","incid":"bruto","rows":[{"label":"108x","prazo":108,"FR":6.9,"BR":0.0,"AR":0.0,"FP":5.9,"AP":0.0,"TR":6.9,"TP":5.9,"mg_flat":1.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":85.5072463768116,"rep_tot":85.5072463768116}],"head":"108x","notes":[]},{"id":"fox-ml-96","bankKey":"fox","bank":"FOX DIGITAL","order":2,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":96,"tables":["NOVO - INSS - FP - NORMAL - TX 1,85","NOVO - INSS - FP - TX 1,85 - CARÊNCIA 90"],"short":"NOVO FP NORMAL TX 1,85 (+ CARÊNCIA 90)","incid":"líquido","rows":[{"label":"96x","prazo":96,"FR":11.0,"BR":0.0,"AR":0.0,"FP":9.5,"AP":0.0,"TR":11.0,"TP":9.5,"mg_flat":1.5,"mg_adi":0.0,"mg_tot":1.5,"rep_flat":86.36363636363636,"rep_tot":86.36363636363636}],"head":"96x","notes":["As tabelas listadas têm os mesmos percentuais neste prazo e aparecem juntas."]},{"id":"fox-ml-108","bankKey":"fox","bank":"FOX DIGITAL","order":2,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":108,"tables":["INSS NOVO 25MIL - CARÊNCIA"],"short":"INSS NOVO 25MIL - CARÊNCIA","incid":"líquido","rows":[{"label":"108x","prazo":108,"FR":13.0,"BR":0.0,"AR":0.0,"FP":11.5,"AP":0.0,"TR":13.0,"TP":11.5,"mg_flat":1.5,"mg_adi":0.0,"mg_tot":1.5,"rep_flat":88.46153846153845,"rep_tot":88.46153846153845}],"head":"108x","notes":[]},{"id":"fox-rp-108","bankKey":"fox","bank":"FOX DIGITAL","order":2,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":108,"tables":["PORT + REFIN 1,85 - CARÊNCIA"],"short":"PORT + REFIN 1,85 - CARÊNCIA","incid":"bruto","rows":[{"label":"108x","prazo":108,"FR":7.5,"BR":0.0,"AR":0.0,"FP":6.0,"AP":0.0,"TR":7.5,"TP":6.0,"mg_flat":1.5,"mg_adi":0.0,"mg_tot":1.5,"rep_flat":80.0,"rep_tot":80.0}],"head":"108x","notes":[]},{"id":"happy-ml-96","bankKey":"happy","bank":"BANCO HAPPY CONSIG","order":3,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":96,"tables":["HAPPY - MARGEM LIVRE - 1,85%"],"short":"MARGEM LIVRE - 1,85%","incid":"líquido","rows":[{"label":"96x · A","prazo":96,"FR":10.05,"BR":0.7,"AR":0.0,"FP":9.55,"AP":0.0,"TR":10.75,"TP":9.55,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.02487562189054,"rep_tot":88.83720930232559},{"label":"96x · B","prazo":96,"FR":10.3,"BR":0.7,"AR":0.0,"FP":9.8,"AP":0.0,"TR":11.0,"TP":9.8,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.14563106796116,"rep_tot":89.0909090909091}],"head":"96x · B","notes":["A base traz mais de uma condição neste prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"happy-ml-108","bankKey":"happy","bank":"BANCO HAPPY CONSIG","order":3,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":108,"tables":["HAPPY - MARGEM LIVRE - 1,85%"],"short":"MARGEM LIVRE - 1,85%","incid":"líquido","rows":[{"label":"108x · A","prazo":108,"FR":11.8,"BR":0.7,"AR":0.0,"FP":11.3,"AP":0.0,"TR":12.5,"TP":11.3,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.76271186440678,"rep_tot":90.4},{"label":"108x · B","prazo":108,"FR":12.3,"BR":0.7,"AR":0.0,"FP":11.8,"AP":0.0,"TR":13.0,"TP":11.8,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.9349593495935,"rep_tot":90.76923076923077}],"head":"108x · B","notes":["A base traz mais de uma condição neste prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"happy-rp-108","bankKey":"happy","bank":"BANCO HAPPY CONSIG","order":3,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":108,"tables":["HAPPY - PORT+REFIN - 1,85%"],"short":"PORT+REFIN - 1,85%","incid":"bruto","rows":[{"label":"108x · A","prazo":108,"FR":3.0,"BR":0.7,"AR":0.0,"FP":2.7,"AP":0.0,"TR":3.7,"TP":2.7,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":90.0,"rep_tot":72.97297297297297},{"label":"108x · B","prazo":108,"FR":4.0,"BR":0.7,"AR":0.0,"FP":3.7,"AP":0.0,"TR":4.7,"TP":3.7,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":92.5,"rep_tot":78.72340425531915},{"label":"108x · C","prazo":108,"FR":4.9,"BR":0.7,"AR":0.0,"FP":4.6,"AP":0.0,"TR":5.6,"TP":4.6,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":93.87755102040815,"rep_tot":82.14285714285714},{"label":"108x · D","prazo":108,"FR":6.0,"BR":0.7,"AR":0.0,"FP":5.7,"AP":0.0,"TR":6.7,"TP":5.7,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":95.0,"rep_tot":85.07462686567165}],"head":"108x · D","notes":["A base traz mais de uma condição neste prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"quali-ml-96","bankKey":"quali","bank":"QUALIBANKING","order":4,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":96,"tables":["000619 NOVO AUMENTO 96X 1,85%","000620 NOVO AUMENTO CAR 90D 96X 1,85%"],"short":"000619 / 000620 NOVO AUMENTO 96X","incid":"líquido","rows":[{"label":"96x","prazo":96,"FR":10.0,"BR":0.5,"AR":0.0,"FP":9.5,"AP":0.0,"TR":10.5,"TP":9.5,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":95.0,"rep_tot":90.47619047619048}],"head":"96x","notes":["As tabelas listadas têm os mesmos percentuais neste prazo e aparecem juntas."]},{"id":"quali-ml-108","bankKey":"quali","bank":"QUALIBANKING","order":4,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":108,"tables":["000613 NOVO CARÊNCIA 90D 108X 1,85% - 1093","000614 ENTRANTE CARÊNCIA 90D 108X 1,85% - 1094","000618 NOVO AUMENTO CAR 90D 108X 1,85%"],"short":"000613 / 000614 / 000618 108X","incid":"líquido","rows":[{"label":"108x","prazo":108,"FR":11.5,"BR":1.0,"AR":0.0,"FP":11.5,"AP":0.0,"TR":12.5,"TP":11.5,"mg_flat":0.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":100.0,"rep_tot":92.0}],"head":"108x","notes":["As tabelas listadas têm os mesmos percentuais neste prazo e aparecem juntas."]},{"id":"quali-rp-96","bankKey":"quali","bank":"QUALIBANKING","order":4,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":96,"tables":["000457 PORT + REFIN 1,85% 96X MIN 6 MIL CAR 90D","000466 PORT REFIN 1,85% 96X SALDO DE 2MIL A 5.999,00 MIL CAR 90D"],"short":"000457 / 000466 PORT + REFIN 96X","incid":"bruto","rows":[{"label":"96x","prazo":96,"FR":5.0,"BR":0.5,"AR":0.0,"FP":4.5,"AP":0.0,"TR":5.5,"TP":4.5,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":90.0,"rep_tot":81.81818181818183}],"head":"96x","notes":["As tabelas listadas têm os mesmos percentuais neste prazo e aparecem juntas."]},{"id":"quali-rp-108","bankKey":"quali","bank":"QUALIBANKING","order":4,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":108,"tables":["000418 PORT + REFIN 1,85% 108X S/ SEG MIN 6 MIL CAR 90D"],"short":"000418 PORT + REFIN 108X","incid":"bruto","rows":[{"label":"108x","prazo":108,"FR":7.0,"BR":0.5,"AR":0.0,"FP":6.5,"AP":0.0,"TR":7.5,"TP":6.5,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":92.85714285714286,"rep_tot":86.66666666666667}],"head":"108x","notes":[]},{"id":"bmg-ml-96","bankKey":"bmg","bank":"BMG","order":5,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":96,"tables":["BMG - INSS NORMAL DG TK 90C 96X - 5249"],"short":"5249 INSS NORMAL DG TK 90C 96X","incid":"líquido","rows":[{"label":"96x","prazo":96,"FR":6.0,"BR":0.5,"AR":1.65,"FP":7.15,"AP":0.0,"TR":8.15,"TP":7.15,"mg_flat":-1.15,"mg_adi":1.65,"mg_tot":1.0,"rep_flat":119.16666666666667,"rep_tot":87.73006134969326}],"head":"96x","notes":[]},{"id":"bmg-ml-108","bankKey":"bmg","bank":"BMG","order":5,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":108,"tables":["BMG - INSS NORMAL DG TK 90C 108X - 5250"],"short":"5250 INSS NORMAL DG TK 90C 108X","incid":"líquido","rows":[{"label":"108x · A","prazo":108,"FR":6.0,"BR":1.5,"AR":1.8,"FP":8.3,"AP":0.0,"TR":9.3,"TP":8.3,"mg_flat":-2.3,"mg_adi":1.8,"mg_tot":1.0,"rep_flat":138.33333333333334,"rep_tot":89.24731182795699},{"label":"108x · B","prazo":108,"FR":6.0,"BR":3.25,"AR":1.8,"FP":10.05,"AP":0.0,"TR":11.05,"TP":10.05,"mg_flat":-4.05,"mg_adi":1.8,"mg_tot":1.0,"rep_flat":167.5,"rep_tot":90.9502262443439},{"label":"108x · C","prazo":108,"FR":6.0,"BR":5.25,"AR":1.8,"FP":12.05,"AP":0.0,"TR":13.05,"TP":12.05,"mg_flat":-6.05,"mg_adi":1.8,"mg_tot":1.0,"rep_flat":200.83333333333334,"rep_tot":92.33716475095785}],"head":"108x · C","notes":["A base traz mais de uma condição neste prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"bmg-rp-96","bankKey":"bmg","bank":"BMG","order":5,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":96,"tables":["INSS REF PORT FLEX 1 DIGITAL - 9000/9062"],"short":"9000/9062 REF PORT FLEX 1","incid":"líquido","rows":[{"label":"96x","prazo":96,"FR":4.0,"BR":0.0,"AR":0.0,"FP":3.0,"AP":0.0,"TR":4.0,"TP":3.0,"mg_flat":1.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":75.0,"rep_tot":75.0}],"head":"96x","notes":[]},{"id":"c6-ml-96","bankKey":"c6","bank":"C6 BANK","order":6,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":96,"tables":["Tkt 6k a 20k (+30d Car)-DWeb-ML - 210409","Tkt 6k a 20k (+30d Car)-Plus-ML - 210433","Tkt 6k a 20k (+60d Car)-DWeb-ML - 210410","Tkt 6k a 20k (+60d Car)-Plus-ML - 210434","Tkt 6k a 20k (+90d Car)-DWeb-ML - 210411","Tkt 6k a 20k (+90d Car)-Plus-ML - 210435","Tkt 6k a 20k -DWeb-ML - 210408","Tkt 6k a 20k -Plus-ML - 210432","Tkt > 20k (+30d Car)-DWeb-ML - 210413","Tkt > 20k (+30d Car)-Plus-ML - 210437","Tkt > 20k (+60d Car)-DWeb-ML - 210414","Tkt > 20k (+60d Car)-Plus-ML - 210438","Tkt > 20k (+90d Car)-DWeb-ML - 210415","Tkt > 20k (+90d Car)-Plus-ML - 210439","Tkt > 20k -DWeb-ML - 210412","Tkt > 20k -Plus-ML - 210436","Tkt ate 6k (+30d Car)-DWeb-ML - 210405","Tkt ate 6k (+30d Car)-Plus-ML - 210429","Tkt ate 6k (+60d Car)-DWeb-ML - 210406","Tkt ate 6k (+60d Car)-Plus-ML - 210430","Tkt ate 6k (+90d Car)-DWeb-ML - 210407","Tkt ate 6k (+90d Car)-Plus-ML - 210431","Tkt ate 6k -DWeb-ML - 210404","Tkt ate 6k -Plus-ML - 210428"],"short":"24 tabelas Tkt com o mesmo 96x","incid":"líquido","rows":[{"label":"96x","prazo":96,"FR":5.25,"BR":1.2,"AR":0.0,"FP":5.45,"AP":0.0,"TR":6.45,"TP":5.45,"mg_flat":-0.2,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":103.80952380952382,"rep_tot":84.49612403100775}],"head":"96x","notes":["As tabelas listadas têm os mesmos percentuais neste prazo e aparecem juntas."]},{"id":"c6-ml-108","bankKey":"c6","bank":"C6 BANK","order":6,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":108,"tables":["Tkt > 20k (+90d Car)-DWeb-ML - 210415","Tkt > 20k (+90d Car)-Plus-ML - 210439"],"short":"210415 / 210439 Tkt > 20k (+90d)","incid":"líquido","rows":[{"label":"108x","prazo":108,"FR":6.0,"BR":1.2,"AR":5.75,"FP":11.95,"AP":0.0,"TR":12.95,"TP":11.95,"mg_flat":-5.95,"mg_adi":5.75,"mg_tot":1.0,"rep_flat":199.16666666666666,"rep_tot":92.27799227799228}],"head":"108x","notes":["As tabelas listadas têm os mesmos percentuais neste prazo e aparecem juntas."]},{"id":"c6-rp-96","bankKey":"c6","bank":"C6 BANK","order":6,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":96,"tables":["C6 - Tx1,850~1,78 (+30d Car) Normal-Web-RfnP - 240178"],"short":"240178 Tx1,850~1,78 Normal Web","incid":"bruto-líquido","rows":[{"label":"96x","prazo":96,"FR":5.5,"BR":0.0,"AR":3.0,"FP":4.5,"AP":2.25,"TR":8.5,"TP":6.75,"mg_flat":1.0,"mg_adi":0.75,"mg_tot":1.75,"rep_flat":81.81818181818183,"rep_tot":79.41176470588235}],"head":"96x","notes":[]},{"id":"c6-rp-108","bankKey":"c6","bank":"C6 BANK","order":6,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":108,"tables":["C6 - Tx1,850~1,78 (+30d Car) Normal-Plus-RfnP - 240198","C6 - Tx1,850~1,78 (+30d Car) Normal-Web-RfnP - 240178","C6 - Tx1,850~1,78 (+90d Car) Normal-Plus-RfnP - 240200","C6 - Tx1,850~1,78 (+90d Car) Normal-Web-RfnP - 240180"],"short":"240178 / 240198 / 240180 / 240200","incid":"bruto-líquido","rows":[{"label":"108x","prazo":108,"FR":6.0,"BR":0.0,"AR":3.0,"FP":5.0,"AP":2.25,"TR":9.0,"TP":7.25,"mg_flat":1.0,"mg_adi":0.75,"mg_tot":1.75,"rep_flat":83.33333333333334,"rep_tot":80.55555555555556}],"head":"108x","notes":["As tabelas listadas têm os mesmos percentuais neste prazo e aparecem juntas."]},{"id":"icred-ml-96","bankKey":"icred","bank":"ICRED","order":7,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":96,"tables":["INSS - NOVO - NORMAL"],"short":"INSS - NOVO - NORMAL","incid":"líquido","rows":[{"label":"96x","prazo":96,"FR":6.0,"BR":0.0,"AR":2.0,"FP":7.0,"AP":0.0,"TR":8.0,"TP":7.0,"mg_flat":-1.0,"mg_adi":2.0,"mg_tot":1.0,"rep_flat":116.66666666666667,"rep_tot":87.5}],"head":"96x","notes":[]},{"id":"icred-ml-108","bankKey":"icred","bank":"ICRED","order":7,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"prazo":108,"tables":["INSS - NOVO - NORMAL","INSS - NOVO - NORMAL - 90D"],"short":"INSS - NOVO - NORMAL (+ 90D)","incid":"líquido","rows":[{"label":"108x · A","prazo":108,"FR":6.0,"BR":0.0,"AR":6.0,"FP":11.0,"AP":0.0,"TR":12.0,"TP":11.0,"mg_flat":-5.0,"mg_adi":6.0,"mg_tot":1.0,"rep_flat":183.33333333333331,"rep_tot":91.66666666666666},{"label":"108x · B","prazo":108,"FR":6.0,"BR":0.0,"AR":7.0,"FP":12.0,"AP":0.0,"TR":13.0,"TP":12.0,"mg_flat":-6.0,"mg_adi":7.0,"mg_tot":1.0,"rep_flat":200.0,"rep_tot":92.3076923076923}],"head":"108x · B","notes":["As tabelas listadas têm os mesmos percentuais neste prazo e aparecem juntas.","A base traz mais de uma condição neste prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"icred-rp-108","bankKey":"icred","bank":"ICRED","order":7,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"prazo":108,"tables":["INSS - PORT + REFIN - NORMAL"],"short":"INSS - PORT + REFIN - NORMAL","incid":"bruto","rows":[{"label":"108x · A","prazo":108,"FR":3.0,"BR":0.1,"AR":0.0,"FP":2.1,"AP":0.0,"TR":3.1,"TP":2.1,"mg_flat":0.9,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":70.0,"rep_tot":67.74193548387098},{"label":"108x · B","prazo":108,"FR":4.5,"BR":0.2,"AR":0.0,"FP":3.7,"AP":0.0,"TR":4.7,"TP":3.7,"mg_flat":0.8,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":82.22222222222223,"rep_tot":78.72340425531915},{"label":"108x · C","prazo":108,"FR":6.0,"BR":0.25,"AR":0.0,"FP":5.25,"AP":0.0,"TR":6.25,"TP":5.25,"mg_flat":0.75,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":87.5,"rep_tot":84.0},{"label":"108x · D","prazo":108,"FR":6.0,"BR":0.25,"AR":1.0,"FP":6.25,"AP":0.0,"TR":7.25,"TP":6.25,"mg_flat":-0.25,"mg_adi":1.0,"mg_tot":1.0,"rep_flat":104.16666666666667,"rep_tot":86.20689655172413}],"head":"108x · D","notes":["A base traz mais de uma condição neste prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]}],"missing":[{"bankKey":"fox","bank":"FOX DIGITAL","order":2,"prod":"RP","prazo":96},{"bankKey":"happy","bank":"BANCO HAPPY CONSIG","order":3,"prod":"RP","prazo":96},{"bankKey":"bmg","bank":"BMG","order":5,"prod":"RP","prazo":108},{"bankKey":"icred","bank":"ICRED","order":7,"prod":"RP","prazo":96}]};
 
 /* ---------- formatação ---------- */
 const NF = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const MINUS = '−';
-const z = v => (Math.abs(v) < 1e-9 ? 0 : v);
-const fNum = v => (z(v) < 0 ? MINUS : '') + NF.format(Math.abs(z(v)));
+const z0 = v => (Math.abs(v) < 1e-9 ? 0 : v);
+const fNum = v => (z0(v) < 0 ? MINUS : '') + NF.format(Math.abs(z0(v)));
 const fPct = v => fNum(v) + '%';
 const fPP = v => fNum(v) + ' p.p.';
-const isNeg = v => z(v) < 0;
-const headRow = x => x.rows.find(r => r.label === x.head);
+const isNeg = v => z0(v) < 0;
 
 /* ---------- DOM ---------- */
 function h(tag, props, ...kids) {
@@ -506,7 +527,6 @@ function h(tag, props, ...kids) {
     const v = props[k];
     if (v == null || v === false) continue;
     if (k === 'class') e.className = v;
-    else if (k === 'text') e.textContent = v;
     else if (k === 'style') Object.assign(e.style, v);
     else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
     else e.setAttribute(k, v === true ? '' : String(v));
@@ -538,17 +558,34 @@ function icon(kind) {
   return g;
 }
 
-/* ---------- estado e filtros ---------- */
-const state = { prod: 'all', banks: new Set(), sort: { key: 'bank', dir: 1 } };
-const current = () => D.sel.filter(x =>
-  (state.prod === 'all' || x.prod === state.prod) &&
-  (state.banks.size === 0 || state.banks.has(x.bankKey)));
-const who = x => `${x.bank} · ${x.prodShort}`;
+/* ---------- dados, estado e filtros ---------- */
+const PZ = [96, 108];
+const PROD_LABEL = { ML: 'Margem Livre (Novo)', RP: 'Port + Refin' };
+const PROD_SHORT = { ML: 'Margem Livre', RP: 'Port + Refin' };
+const BANK_SHORT = { facta: 'FACTA', fox: 'FOX', happy: 'HAPPY', quali: 'QUALI', bmg: 'BMG', c6: 'C6', icred: 'ICRED' };
+const state = { prod: 'all', prazo: 'all', banks: new Set(), sort: { key: 'bank', dir: 1 } };
+const inFilter = (bankKey, prod, prazo) =>
+  (state.prod === 'all' || prod === state.prod) &&
+  (state.prazo === 'all' || String(prazo) === state.prazo) &&
+  (state.banks.size === 0 || state.banks.has(bankKey));
+const current = () => D.sel.filter(x => inFilter(x.bankKey, x.prod, x.prazo));
+const missingNow = () => D.missing.filter(m => inFilter(m.bankKey, m.prod, m.prazo));
+const shownProds = () => (state.prod === 'all' ? ['ML', 'RP'] : [state.prod]);
+const shownPrazos = () => (state.prazo === 'all' ? PZ : [Number(state.prazo)]);
+const shownBanks = () => D.banks.filter(b => state.banks.size === 0 || state.banks.has(b.key));
+const pairs = () => shownProds().flatMap(p => shownPrazos().map(z => [p, z]));
+const headRow = x => x.rows.find(r => r.label === x.head);
+const who = x => `${x.bank} · ${x.prodShort} ${x.prazo}x`;
+const condOf = x => (x.rows.length > 1 ? ` · condição ${x.head.split('· ')[1]}` : '');
+const find = (bankKey, prod, prazo) => D.sel.find(x => x.bankKey === bankKey && x.prod === prod && x.prazo === prazo);
 
+function seg(id, opts, key) {
+  const el = document.getElementById(id);
+  opts.forEach(([v, label]) => el.append(h('button', { type: 'button', class: 'seg-btn', 'data-v': v, onclick: () => { state[key] = v; renderAll(); } }, label)));
+}
 function buildFilters() {
-  const seg = document.getElementById('f-prod');
-  [['all', 'Todos os produtos'], ['ML', 'Margem Livre'], ['RP', 'Port + Refin']].forEach(([v, label]) =>
-    seg.append(h('button', { type: 'button', class: 'seg-btn', 'data-v': v, onclick: () => { state.prod = v; renderAll(); } }, label)));
+  seg('f-prod', [['all', 'Todos os produtos'], ['ML', 'Margem Livre'], ['RP', 'Port + Refin']], 'prod');
+  seg('f-prazo', [['all', '96x e 108x'], ['96', '96x'], ['108', '108x']], 'prazo');
   const chips = document.getElementById('f-bank');
   chips.append(h('button', { type: 'button', class: 'chip', 'data-v': 'all', onclick: () => { state.banks.clear(); renderAll(); } }, 'Todos os bancos'));
   D.banks.forEach(b => chips.append(h('button', {
@@ -562,23 +599,24 @@ function buildFilters() {
 }
 function syncFilters(list) {
   document.querySelectorAll('#f-prod .seg-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === state.prod)));
+  document.querySelectorAll('#f-prazo .seg-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === state.prazo)));
   document.querySelectorAll('#f-bank .chip').forEach(b =>
     b.setAttribute('aria-pressed', String(b.dataset.v === 'all' ? state.banks.size === 0 : state.banks.has(b.dataset.v))));
   document.getElementById('f-count').textContent = list.length === D.sel.length ? `${list.length} tabelas` : `${list.length} de ${D.sel.length} tabelas`;
 }
 
 /* ---------- KPIs ---------- */
-function kpi(label, value, sub, mod) {
-  return h('div', { class: 'kpi' + (mod ? ' ' + mod : '') },
-    h('div', { class: 'kpi-label' }, label), h('div', { class: 'kpi-value' }, value), h('div', { class: 'kpi-sub' }, sub));
+function kpi(label, value, sub) {
+  return h('div', { class: 'kpi' }, h('div', { class: 'kpi-label' }, label), h('div', { class: 'kpi-value' }, value), h('div', { class: 'kpi-sub' }, sub));
 }
 function topOf(list, f) {
   const m = Math.max(...list.map(f));
   return { m, items: list.filter(x => Math.abs(f(x) - m) < 1e-9) };
 }
-const names = items => items.length <= 2 ? items.map(x => `${who(x)} (${x.head})`).join(' e ') : `${items.length} tabelas empatadas`;
+const names = items => (items.length <= 2 ? items.map(x => who(x) + condOf(x)).join(' e ') : `${items.length} tabelas empatadas`);
 function renderKPIs(list) {
   const box = document.getElementById('kpis');
+  if (!list.length) { box.replaceChildren(kpi('Tabelas no filtro', '0', 'nenhum banco tem tabela nessa combinação de produto e prazo')); return; }
   const a = topOf(list, x => headRow(x).TR);
   const b = topOf(list, x => headRow(x).mg_tot);
   const one = list.filter(x => Math.abs(headRow(x).mg_tot - 1) < 1e-9).length;
@@ -590,33 +628,25 @@ function renderKPIs(list) {
     kpi('Flat repassado acima do recebido', `${over} de ${list.length}`, 'tabelas em que o flat do parceiro inclui bônus ou adiantamento'));
 }
 
-/* ---------- Etapa 1 ---------- */
-function renderMatrix(list) {
+/* ---------- tabelas analisadas ---------- */
+function renderMatrix() {
   const t = document.getElementById('matrix');
-  const showML = state.prod !== 'RP', showRP = state.prod !== 'ML';
-  const cell = x => {
-    if (!x) return h('td', null, '—');
-    const r = headRow(x);
-    return h('td', null, h('div', { class: 'mx-name' }, x.short),
-      h('div', { class: 'mx-meta' }, `${fPct(r.TR)} de comissão recebida · ${r.label} · ${x.incid}`));
-  };
-  const tb = h('tbody');
-  D.banks.filter(b => list.some(x => x.bankKey === b.key)).forEach(b => {
-    const ml = list.find(x => x.bankKey === b.key && x.prod === 'ML');
-    const rp = list.find(x => x.bankKey === b.key && x.prod === 'RP');
-    tb.append(h('tr', null,
-      h('th', { scope: 'row' }, h('a', { href: '#b-' + b.key }, `${b.order}. ${b.name}`)),
-      showML && cell(ml), showRP && cell(rp)));
-  });
+  const cols = pairs();
+  const body = h('tbody', null, shownBanks().map(b => h('tr', null,
+    h('th', { scope: 'row' }, h('a', { href: '#b-' + b.key }, `${b.order}. ${b.name}`)),
+    cols.map(([p, z]) => {
+      const x = find(b.key, p, z);
+      if (!x) return h('td', { class: 'mx-none' }, 'Sem tabela neste prazo');
+      const r = headRow(x);
+      return h('td', null, h('div', { class: 'mx-name' }, x.short), h('div', { class: 'mx-meta' }, `${fPct(r.TR)} recebido · ${x.incid}`));
+    }))));
   t.replaceChildren(
-    h('caption', { class: 'sr-only' }, 'Tabelas selecionadas por banco e produto'),
-    h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Banco'),
-      showML && h('th', { scope: 'col' }, 'Tabela 1 · Margem Livre (Novo)'),
-      showRP && h('th', { scope: 'col' }, 'Tabela 2 · Port + Refin'))),
-    tb);
+    h('caption', { class: 'sr-only' }, 'Tabelas selecionadas por banco, produto e prazo'),
+    h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Banco'), cols.map(([p, z]) => h('th', { scope: 'col' }, `${PROD_SHORT[p]} · ${z}x`)))),
+    body);
 }
 
-/* ---------- cartões por banco ---------- */
+/* ---------- condições (detalhe) ---------- */
 const IND = [
   { k: 'FR', label: 'Flat recebido', f: fPct, grp: 'rec' },
   { k: 'BR', label: 'Bônus recebido', f: fPct, grp: 'rec' },
@@ -641,194 +671,89 @@ function condTable(x) {
       x.rows.map(r => {
         const v = r[ind.k];
         const bad = (ind.sign && isNeg(v)) || (ind.over && v > 100 + 1e-9);
-        return h('td', { class: bad ? 'neg' : null }, v == null ? 'N/D' : ind.f(v));
+        return h('td', { class: bad ? 'neg' : null }, v == null ? '—' : ind.f(v));
       }));
   }));
   return h('table', { class: 'cond' },
     h('caption', { class: 'sr-only' }, `Percentuais por condição: ${who(x)}`),
-    h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Prazo / condição'),
+    h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Condição'),
       x.rows.map(r => h('th', { scope: 'col', class: r.label === x.head ? 'is-head' : null }, r.label)))),
     body);
 }
 const partsRec = r => [`flat ${fNum(r.FR)}`, r.BR ? `bônus ${fNum(r.BR)}` : null, r.AR ? `adiant. ${fNum(r.AR)}` : null].filter(Boolean).join(' + ');
 const partsRep = r => [`flat ${fNum(r.FP)}`, r.AP ? `adiant. ${fNum(r.AP)}` : null].filter(Boolean).join(' + ');
-function fig(k, v, c, mod, cNeg) {
-  return h('div', { class: 'fig' + (mod ? ' ' + mod : '') }, h('span', { class: 'k' }, k), h('span', { class: 'v' }, v), h('span', { class: 'c' + (cNeg ? ' neg' : '') }, c));
-}
-function summary(x) {
-  const r = headRow(x);
-  return h('section', { class: 'sum', 'aria-label': `Tabela ${x.tabNo}, ${x.prodFull}` },
-    h('div', { class: 'panel-tag' }, `Tabela ${x.tabNo} · ${x.prodFull}`),
-    x.tables.length === 1 ? h('h4', { class: 'tab-name' }, x.tables[0]) : h('ul', { class: 'tab-names' }, x.tables.map(t => h('li', null, t))),
-    h('p', { class: 'panel-meta' }, `Operação: ${x.opBase} · Incidência: ${x.incid} · Condição em destaque: ${r.label}`),
-    h('div', { class: 'trio' },
-      fig('Recebemos', fPct(r.TR), partsRec(r)),
-      fig('Repassamos', fPct(r.TP), partsRep(r)),
-      fig('Margem total', fPP(r.mg_tot), `de flat: ${fPP(r.mg_flat)}`, 'accent', isNeg(r.mg_flat))),
-    x.flags.length ? h('ul', { class: 'flags' }, x.flags.map(f => h('li', { class: 'flag ' + f.kind }, icon(f.kind), f.text))) : null);
-}
 function detailPanel(x) {
-  return h('section', { class: 'panel', 'aria-label': `Condições da Tabela ${x.tabNo}, ${x.prodFull}` },
-    h('div', { class: 'panel-tag' }, `Tabela ${x.tabNo} · ${x.prodFull}`),
+  return h('section', { class: 'panel', 'aria-label': `Condições: ${who(x)}` },
+    h('div', { class: 'panel-tag' }, `Tabela ${x.tabNo} · ${x.prodFull} · ${x.prazo}x`),
+    x.tables.length === 1 ? h('h4', { class: 'tab-name' }, x.tables[0])
+      : h('ul', { class: 'tab-names' + (x.tables.length > 4 ? ' many' : '') }, x.tables.map(t => h('li', null, t))),
+    h('p', { class: 'panel-meta' }, `Operação: ${x.opBase} · Incidência: ${x.incid}`),
     h('div', { class: 'table-wrap' }, condTable(x)),
     x.notes.length ? h('ul', { class: 'notes' }, x.notes.map(n => h('li', null, n))) : null);
 }
+
+/* ---------- cartões por banco ---------- */
+function prodBlock(b, p) {
+  const items = shownPrazos().map(z => [z, find(b.key, p, z)]);
+  const where = pred => items.filter(([, x]) => x && x.rows.some(pred)).map(([z, x]) => {
+    const hit = x.rows.filter(pred).map(r => r.label);
+    return hit.length === x.rows.length ? `${z}x` : `${z}x (condição ${hit.map(l => l.split('· ')[1]).join(', ')})`;
+  });
+  const over = where(r => r.FP > r.FR + 1e-9), full = where(r => Math.abs(r.mg_flat) < 1e-9);
+  const flags = [];
+  if (over.length) flags.push({ kind: 'crit', text: `Flat repassado maior que o recebido: ${over.join(' e ')}` });
+  if (full.length) flags.push({ kind: 'warn', text: `100% do flat repassado: ${full.join(' e ')}` });
+  if (items.some(([, x]) => x && x.rows.some(r => r.BR > 0))) flags.push({ kind: 'info', text: 'Parte da margem vem do bônus' });
+  const rows = items.map(([z, x]) => {
+    if (!x) return h('tr', null, h('th', { scope: 'row' }, `${z}x`), h('td', { class: 'none', colspan: 4 }, 'Sem tabela neste prazo na base'));
+    const r = headRow(x);
+    return h('tr', null,
+      h('th', { scope: 'row' }, `${z}x`, h('span', { class: 'sub' }, x.short + condOf(x))),
+      h('td', null, fPct(r.TR), h('span', { class: 'sub' }, partsRec(r))),
+      h('td', null, fPct(r.TP), h('span', { class: 'sub' }, partsRep(r))),
+      h('td', { class: 'acc' }, fPP(r.mg_tot)),
+      h('td', { class: isNeg(r.mg_flat) ? 'neg' : null }, fPP(r.mg_flat)));
+  });
+  const no = p === 'ML' ? 1 : 2;
+  return h('section', { class: 'sum', 'aria-label': `Tabela ${no}, ${PROD_LABEL[p]}` },
+    h('div', { class: 'panel-tag' }, `Tabela ${no} · ${PROD_LABEL[p]}`),
+    h('div', { class: 'table-wrap' }, h('table', { class: 'pz' },
+      h('caption', { class: 'sr-only' }, `${b.name}, ${PROD_LABEL[p]}, por prazo`),
+      h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Prazo · tabela'), h('th', { scope: 'col' }, 'Recebemos'),
+        h('th', { scope: 'col' }, 'Repassamos'), h('th', { scope: 'col' }, 'Margem total'), h('th', { scope: 'col' }, 'Margem de flat'))),
+      h('tbody', null, rows))),
+    flags.length ? h('ul', { class: 'flags' }, flags.map(f => h('li', { class: 'flag ' + f.kind }, icon(f.kind), f.text))) : null);
+}
 const openDetails = new Set();
-function renderBanks(list) {
+function renderBanks() {
   const box = document.getElementById('bank-list');
-  box.replaceChildren(...D.banks.filter(b => list.some(x => x.bankKey === b.key)).map(b => {
-    const items = list.filter(x => x.bankKey === b.key);
-    const both = D.sel.filter(x => x.bankKey === b.key);
-    const nCond = items.reduce((s, x) => s + x.rows.length, 0);
-    const det = h('details', { class: 'more', open: openDetails.has(b.key) || null },
-      h('summary', null, `Ver todas as condições da base (${nCond})`),
-      h('div', { class: 'panels' + (items.length === 1 ? ' single' : '') }, items.map(detailPanel)));
-    det.addEventListener('toggle', () => { if (det.open) openDetails.add(b.key); else openDetails.delete(b.key); });
+  const prods = shownProds(), zs = shownPrazos();
+  box.replaceChildren(...shownBanks().map(b => {
+    const all = D.sel.filter(x => x.bankKey === b.key);
+    const ents = all.filter(x => prods.includes(x.prod) && zs.includes(x.prazo));
+    const mgs = all.map(x => headRow(x).mg_tot);
+    const lo = Math.min(...mgs), hi = Math.max(...mgs);
+    const pill = Math.abs(hi - lo) < 1e-9 ? `Margem total de ${fPP(lo)} em todas as tabelas` : `Margem total de ${fPP(lo)} a ${fPP(hi)}`;
+    let det = null;
+    if (ents.length) {
+      det = h('details', { class: 'more', open: openDetails.has(b.key) || null },
+        h('summary', null, `Ver todas as condições da base (${ents.reduce((s, x) => s + x.rows.length, 0)})`),
+        h('div', { class: 'dpanels' }, ents.map(detailPanel)));
+      det.addEventListener('toggle', () => { if (det.open) openDetails.add(b.key); else openDetails.delete(b.key); });
+    }
     return h('article', { class: 'bank', id: 'b-' + b.key, 'aria-labelledby': 'bh-' + b.key },
       h('header', { class: 'bank-head' },
         h('span', { class: 'bank-no' }, `${b.order}.`),
         h('h3', { id: 'bh-' + b.key }, b.name),
-        h('span', { class: 'bank-pill' }, 'Margem total: ' + both.map(x => `${x.prodShort} ${fPP(headRow(x).mg_tot)}`).join(' · '))),
+        h('span', { class: 'bank-pill' }, pill)),
       h('p', { class: 'bank-concl' }, h('strong', null, 'Conclusão. '), b.concl),
-      h('div', { class: 'panels' + (items.length === 1 ? ' single' : '') }, items.map(summary)),
+      h('div', { class: 'panels' + (prods.length === 1 ? ' single' : '') }, prods.map(p => prodBlock(b, p))),
       det);
   }));
 }
 
-/* ---------- bancos lado a lado (gráficos) ---------- */
-const BANK_SHORT = { facta: 'FACTA', fox: 'FOX', happy: 'HAPPY', quali: 'QUALI', bmg: 'BMG', c6: 'C6', icred: 'ICRED' };
-const PROD_LABEL = { ML: 'Margem Livre (Novo)', RP: 'Port + Refin' };
-const shownProds = () => (state.prod === 'all' ? ['ML', 'RP'] : [state.prod]);
-const shownBanks = list => D.banks.filter(b => list.some(x => x.bankKey === b.key));
-const bankLabel = (b, slot) => (slot >= 124 ? b.name : BANK_SHORT[b.key]);
-function attachTip(g, lines) {
-  g.addEventListener('pointerenter', e => showTip(lines(), e.clientX, e.clientY));
-  g.addEventListener('pointermove', e => placeTip(e.clientX, e.clientY));
-  g.addEventListener('pointerleave', hideTip);
-  g.addEventListener('focus', () => { const b = g.getBoundingClientRect(); showTip(lines(), b.left + b.width / 2, b.top + 24); });
-  g.addEventListener('blur', hideTip);
-}
-function tipBank(o) {
-  const r = o.r;
-  return [h('div', { class: 'tt-h' }, who(o.x)),
-    h('div', { class: 'tt-s' }, `${o.x.short} · ${r.label}`),
-    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TR)), ` recebido (${partsRec(r)})`),
-    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TP)), ` repassado (${partsRep(r)})`),
-    h('div', { class: 'tt-r' }, h('b', null, fPP(r.mg_tot)), ' de margem total'),
-    h('div', { class: 'tt-r' }, h('b', null, fPP(r.mg_flat)), ` de margem de flat (${fNum(r.FR)} − ${fNum(r.FP)})`)];
-}
-function roundedTop(x, y, w, hgt, r) {
-  if (hgt <= 0) return '';
-  r = Math.min(r, w / 2, hgt);
-  return `M${x},${y + hgt}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + hgt}Z`;
-}
-function roundedBottom(x, y, w, hgt, r) {
-  if (hgt <= 0) return '';
-  r = Math.min(r, w / 2, hgt);
-  return `M${x},${y}H${x + w}V${y + hgt - r}Q${x + w},${y + hgt} ${x + w - r},${y + hgt}H${x + r}Q${x},${y + hgt} ${x},${y + hgt - r}Z`;
-}
-function miniPlots(hostId, prods) {
-  const host = document.getElementById(hostId);
-  host.replaceChildren(...prods.map(p => h('figure', { class: 'mini' }, h('figcaption', null, PROD_LABEL[p]), h('div', { class: 'mini-plot', 'data-prod': p }))));
-  return [...host.querySelectorAll('.mini-plot')];
-}
-function bankFrame(div, banks, H) {
-  const W = Math.max(260, Math.round(div.clientWidth || 520));
-  const side = 2, slot = (W - 2 * side) / banks.length;
-  return { W, H, side, slot, bw: Math.min(36, Math.max(14, slot * 0.46)), narrow: slot < 70, tight: slot < 58,
-    svg: sv('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: 'none' }) };
-}
-function renderStackChart(list) {
-  const prods = shownProds(), banks = shownBanks(list);
-  const items = list.map(x => ({ x, r: headRow(x) }));
-  const yMax = Math.max(2, Math.ceil(Math.max(...items.map(o => o.r.TR)) / 2) * 2);
-  document.getElementById('bc1-title').textContent = 'Comissão recebida: ' + prods.map(p => {
-    const v = items.filter(o => o.x.prod === p).map(o => o.r.TR);
-    return `${p === 'ML' ? 'Margem Livre' : 'Port + Refin'} de ${fPct(Math.min(...v))} a ${fPct(Math.max(...v))}`;
-  }).join(' · ');
-  miniPlots('bc1', prods).forEach(div => {
-    const p = div.dataset.prod;
-    const f = bankFrame(div, banks, 294), top = 46, bottom = 30;
-    const plotH = f.H - top - bottom;
-    const Y = v => top + plotH - (v / yMax) * plotH;
-    f.svg.append(sv('line', { x1: f.side, x2: f.W - f.side, y1: Y(0), y2: Y(0), class: 'base' }));
-    banks.forEach((b, i) => {
-      const o = items.find(o => o.x.bankKey === b.key && o.x.prod === p);
-      const cx = f.side + f.slot * (i + .5);
-      const g = sv('g', { class: 'bc-col', tabindex: o ? 0 : null, role: 'listitem',
-        'aria-label': o ? `${b.name}, ${PROD_LABEL[p]}: recebido ${fPct(o.r.TR)}, repassado ${fPct(o.r.TP)}, margem total ${fPP(o.r.mg_tot)}` : `${b.name}: sem tabela` });
-      g.append(sv('rect', { x: cx - f.slot / 2 + 1, y: 2, width: Math.max(0, f.slot - 2), height: f.H - 4, rx: 6, class: 'hit' }));
-      if (o) {
-        const x0 = cx - f.bw / 2, yTP = Y(o.r.TP), yTR = Y(o.r.TR);
-        g.append(sv('rect', { x: x0, y: yTP, width: f.bw, height: Math.max(0, Y(0) - yTP), class: 'seg-rep' }));
-        g.append(sv('path', { d: roundedTop(x0, yTR, f.bw, Math.max(0, yTP - 2 - yTR), 4), class: 'seg-mg' }));
-        g.append(sv('text', { x: cx, y: yTR - 7, class: 'bc-v' + (f.tight ? ' tight' : ''), 'text-anchor': 'middle' }, f.tight ? fNum(o.r.TR) : fPct(o.r.TR)));
-        g.append(sv('text', { x: cx, y: yTR - (f.tight ? 21 : 23), class: 'bc-m' + (f.tight ? ' tight' : ''), 'text-anchor': 'middle' }, f.narrow ? fNum(o.r.mg_tot) : fPP(o.r.mg_tot)));
-        attachTip(g, () => tipBank(o));
-      }
-      g.append(sv('text', { x: cx, y: f.H - 9, class: 'bc-x', 'text-anchor': 'middle' }, bankLabel(b, f.slot)));
-      f.svg.append(g);
-    });
-    div.replaceChildren(f.svg);
-  });
-}
-function renderMarginChart(list) {
-  const prods = shownProds(), banks = shownBanks(list);
-  const items = list.map(x => ({ x, r: headRow(x) }));
-  const vals = items.map(o => o.r.mg_flat);
-  const lo = Math.min(0, Math.floor(Math.min(...vals))), hi = Math.max(1, Math.ceil(Math.max(...vals)));
-  document.getElementById('bc2-title').textContent = 'Margem de flat negativa em ' + prods.map(p => {
-    const its = items.filter(o => o.x.prod === p);
-    return `${its.filter(o => isNeg(o.r.mg_flat)).length} de ${its.length} ${its.length === 1 ? 'banco' : 'bancos'} em ${p === 'ML' ? 'Margem Livre' : 'Port + Refin'}`;
-  }).join(' e ');
-  miniPlots('bc2', prods).forEach(div => {
-    const p = div.dataset.prod;
-    const f = bankFrame(div, banks, 284), top = 26, bottom = 32;
-    const plotH = f.H - top - bottom;
-    const Y = v => top + (hi - v) / (hi - lo) * plotH;
-    f.svg.append(sv('line', { x1: f.side, x2: f.W - f.side, y1: Y(0), y2: Y(0), class: 'base' }));
-    banks.forEach((b, i) => {
-      const o = items.find(o => o.x.bankKey === b.key && o.x.prod === p);
-      const cx = f.side + f.slot * (i + .5);
-      const g = sv('g', { class: 'bc-col', tabindex: o ? 0 : null, role: 'listitem',
-        'aria-label': o ? `${b.name}, ${PROD_LABEL[p]}: margem de flat ${fPP(o.r.mg_flat)}` : `${b.name}: sem tabela` });
-      g.append(sv('rect', { x: cx - f.slot / 2 + 1, y: 2, width: Math.max(0, f.slot - 2), height: f.H - 4, rx: 6, class: 'hit' }));
-      if (o) {
-        const v = z(o.r.mg_flat), x0 = cx - f.bw / 2, y0 = Y(0), y1 = Y(v);
-        if (v > 0) g.append(sv('path', { d: roundedTop(x0, y1, f.bw, y0 - y1, 4), class: 'seg-mg' }));
-        if (v < 0) g.append(sv('path', { d: roundedBottom(x0, y0, f.bw, y1 - y0, 4), class: 'seg-neg' }));
-        g.append(sv('text', { x: cx, y: v < 0 ? y1 + 15 : y1 - 7, class: 'bc-v' + (v < 0 ? ' bc-neg' : '') + (f.tight ? ' tight' : ''), 'text-anchor': 'middle' }, f.narrow ? fNum(v) : fPP(v)));
-        attachTip(g, () => tipBank(o));
-      }
-      g.append(sv('text', { x: cx, y: f.H - 9, class: 'bc-x', 'text-anchor': 'middle' }, bankLabel(b, f.slot)));
-      f.svg.append(g);
-    });
-    div.replaceChildren(f.svg);
-  });
-}
-
-/* ---------- 1º ranking (gráfico) ---------- */
-function rankBy(list, f, tie) {
-  const rows = list.map(x => ({ x, r: headRow(x) }));
-  rows.sort((a, b) => f(b) - f(a) || (tie ? tie(b) - tie(a) : 0) || a.x.order - b.x.order || a.x.tabNo - b.x.tabNo);
-  let pos = 0, prev = null;
-  rows.forEach((o, i) => {
-    const key = f(o).toFixed(4) + '|' + (tie ? tie(o).toFixed(4) : '');
-    if (key !== prev) { pos = i + 1; prev = key; }
-    o.pos = pos;
-  });
-  return rows;
-}
+/* ---------- dica (tooltip) ---------- */
 const tip = document.getElementById('tip');
-function tipLines(o) {
-  const r = o.r;
-  return [h('div', { class: 'tt-h' }, `${o.pos}º · ${who(o.x)}`),
-    h('div', { class: 'tt-s' }, `${o.x.short} · ${r.label}`),
-    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TR)), ` recebido (${partsRec(r)})`),
-    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TP)), ` repassado (${partsRep(r)})`),
-    h('div', { class: 'tt-r' }, h('b', null, fPP(r.mg_tot)), ` margem total · flat ${fPP(r.mg_flat)}`),
-    h('div', { class: 'tt-r' }, h('b', null, fPct(r.rep_tot)), ' do recebido vai ao parceiro')];
-}
 function placeTip(x, y) {
   const pad = 14, w = tip.offsetWidth, hh = tip.offsetHeight;
   let left = x + pad, top = y + pad;
@@ -839,27 +764,158 @@ function placeTip(x, y) {
 }
 function showTip(lines, x, y) { tip.replaceChildren(...lines); tip.hidden = false; placeTip(x, y); }
 function hideTip() { tip.hidden = true; }
+function attachTip(g, lines) {
+  g.addEventListener('pointerenter', e => showTip(lines(), e.clientX, e.clientY));
+  g.addEventListener('pointermove', e => placeTip(e.clientX, e.clientY));
+  g.addEventListener('pointerleave', hideTip);
+  g.addEventListener('focus', () => { const b = g.getBoundingClientRect(); showTip(lines(), b.left + Math.min(b.width / 2, 260), b.top + 24); });
+  g.addEventListener('blur', hideTip);
+}
+function tipLines(x, pos) {
+  const r = headRow(x);
+  return [h('div', { class: 'tt-h' }, (pos ? `${pos}º · ` : '') + who(x)),
+    h('div', { class: 'tt-s' }, x.short + condOf(x)),
+    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TR)), ` recebido (${partsRec(r)})`),
+    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TP)), ` repassado (${partsRep(r)})`),
+    h('div', { class: 'tt-r' }, h('b', null, fPP(r.mg_tot)), ' de margem total'),
+    h('div', { class: 'tt-r' }, h('b', null, fPP(r.mg_flat)), ` de margem de flat (${fNum(r.FR)} − ${fNum(r.FP)})`),
+    h('div', { class: 'tt-r' }, h('b', null, fPct(r.rep_tot)), ' do recebido vai ao parceiro')];
+}
+
+/* ---------- formas ---------- */
+function roundedTop(x, y, w, hgt, r) {
+  if (hgt <= 0) return '';
+  r = Math.min(r, w / 2, hgt);
+  return `M${x},${y + hgt}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + hgt}Z`;
+}
+function roundedBottom(x, y, w, hgt, r) {
+  if (hgt <= 0) return '';
+  r = Math.min(r, w / 2, hgt);
+  return `M${x},${y}H${x + w}V${y + hgt - r}Q${x + w},${y + hgt} ${x + w - r},${y + hgt}H${x + r}Q${x},${y + hgt} ${x},${y + hgt - r}Z`;
+}
 function roundedRight(x, y, w, hgt, r) {
   if (w <= 0) return '';
   r = Math.min(r, w / 2, hgt / 2);
   return `M${x},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + hgt - r}Q${x + w},${y + hgt} ${x + w - r},${y + hgt}H${x}Z`;
 }
+
+/* ---------- bancos lado a lado ---------- */
+function miniPlots(hostId, capFn) {
+  const host = document.getElementById(hostId);
+  host.replaceChildren(...pairs().map(([p, z]) => h('figure', { class: 'mini' },
+    h('figcaption', null, h('span', null, `${PROD_SHORT[p]} · ${z}x`), h('span', { class: 'cap-note' }, capFn(p, z))),
+    h('div', { class: 'mini-plot', 'data-prod': p, 'data-prazo': z }))));
+  return [...host.querySelectorAll('.mini-plot')];
+}
+function bankFrame(div, banks, H) {
+  const W = Math.max(260, Math.round(div.clientWidth || 520));
+  const side = 2, slot = (W - 2 * side) / Math.max(1, banks.length);
+  return { W, H, side, slot, bw: Math.min(36, Math.max(14, slot * 0.46)), narrow: slot < 70, tight: slot < 58,
+    svg: sv('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: 'none' }) };
+}
+const bankLabel = (b, slot) => (slot >= 124 ? b.name : BANK_SHORT[b.key]);
+function noneMark(g, cx, y, f) {
+  g.append(sv('text', { x: cx, y, class: 'bc-none', 'text-anchor': 'middle' }, f.tight ? '—' : 'sem tabela'));
+}
+function renderStackChart(list) {
+  const banks = shownBanks();
+  const yMax = Math.max(2, Math.ceil(Math.max(2, ...list.map(x => headRow(x).TR)) / 2) * 2);
+  const plots = miniPlots('bc1', (p, z) => {
+    const v = list.filter(x => x.prod === p && x.prazo === z).map(x => headRow(x).TR);
+    return v.length ? `de ${fPct(Math.min(...v))} a ${fPct(Math.max(...v))}` : 'sem tabelas';
+  });
+  plots.forEach(div => {
+    const p = div.dataset.prod, z = Number(div.dataset.prazo);
+    const f = bankFrame(div, banks, 294), top = 46, bottom = 30;
+    const plotH = f.H - top - bottom;
+    const Y = v => top + plotH - (v / yMax) * plotH;
+    f.svg.append(sv('line', { x1: f.side, x2: f.W - f.side, y1: Y(0), y2: Y(0), class: 'base' }));
+    banks.forEach((b, i) => {
+      const x = list.find(e => e.bankKey === b.key && e.prod === p && e.prazo === z);
+      const cx = f.side + f.slot * (i + .5);
+      const g = sv('g', { class: 'bc-col', tabindex: x ? 0 : null, role: 'listitem',
+        'aria-label': x ? `${b.name}, ${PROD_LABEL[p]} ${z}x: recebido ${fPct(headRow(x).TR)}, repassado ${fPct(headRow(x).TP)}, margem total ${fPP(headRow(x).mg_tot)}`
+                        : `${b.name}, ${PROD_LABEL[p]} ${z}x: sem tabela neste prazo` });
+      g.append(sv('rect', { x: cx - f.slot / 2 + 1, y: 2, width: Math.max(0, f.slot - 2), height: f.H - 4, rx: 6, class: 'hit' }));
+      if (x) {
+        const r = headRow(x), x0 = cx - f.bw / 2, yTP = Y(r.TP), yTR = Y(r.TR);
+        g.append(sv('rect', { x: x0, y: yTP, width: f.bw, height: Math.max(0, Y(0) - yTP), class: 'seg-rep' }));
+        g.append(sv('path', { d: roundedTop(x0, yTR, f.bw, Math.max(0, yTP - 2 - yTR), 4), class: 'seg-mg' }));
+        g.append(sv('text', { x: cx, y: yTR - 7, class: 'bc-v' + (f.tight ? ' tight' : ''), 'text-anchor': 'middle' }, f.tight ? fNum(r.TR) : fPct(r.TR)));
+        g.append(sv('text', { x: cx, y: yTR - (f.tight ? 21 : 23), class: 'bc-m' + (f.tight ? ' tight' : ''), 'text-anchor': 'middle' }, f.narrow ? fNum(r.mg_tot) : fPP(r.mg_tot)));
+        attachTip(g, () => tipLines(x));
+      } else noneMark(g, cx, Y(0) - 8, f);
+      g.append(sv('text', { x: cx, y: f.H - 9, class: 'bc-x', 'text-anchor': 'middle' }, bankLabel(b, f.slot)));
+      f.svg.append(g);
+    });
+    div.replaceChildren(f.svg);
+  });
+}
+function renderMarginChart(list) {
+  const banks = shownBanks();
+  const vals = list.map(x => headRow(x).mg_flat);
+  const lo = Math.min(0, Math.floor(Math.min(0, ...vals))), hi = Math.max(1, Math.ceil(Math.max(1, ...vals)));
+  const plots = miniPlots('bc2', (p, z) => {
+    const its = list.filter(x => x.prod === p && x.prazo === z);
+    if (!its.length) return 'sem tabelas';
+    const k = its.filter(x => isNeg(headRow(x).mg_flat)).length;
+    return `${k} de ${its.length} ${k === 1 ? 'negativa' : 'negativas'}`;
+  });
+  plots.forEach(div => {
+    const p = div.dataset.prod, z = Number(div.dataset.prazo);
+    const f = bankFrame(div, banks, 284), top = 26, bottom = 32;
+    const plotH = f.H - top - bottom;
+    const Y = v => top + (hi - v) / (hi - lo) * plotH;
+    f.svg.append(sv('line', { x1: f.side, x2: f.W - f.side, y1: Y(0), y2: Y(0), class: 'base' }));
+    banks.forEach((b, i) => {
+      const x = list.find(e => e.bankKey === b.key && e.prod === p && e.prazo === z);
+      const cx = f.side + f.slot * (i + .5);
+      const g = sv('g', { class: 'bc-col', tabindex: x ? 0 : null, role: 'listitem',
+        'aria-label': x ? `${b.name}, ${PROD_LABEL[p]} ${z}x: margem de flat ${fPP(headRow(x).mg_flat)}` : `${b.name}, ${PROD_LABEL[p]} ${z}x: sem tabela neste prazo` });
+      g.append(sv('rect', { x: cx - f.slot / 2 + 1, y: 2, width: Math.max(0, f.slot - 2), height: f.H - 4, rx: 6, class: 'hit' }));
+      if (x) {
+        const v = z0(headRow(x).mg_flat), x0 = cx - f.bw / 2, y0 = Y(0), y1 = Y(v);
+        if (v > 0) g.append(sv('path', { d: roundedTop(x0, y1, f.bw, y0 - y1, 4), class: 'seg-mg' }));
+        if (v < 0) g.append(sv('path', { d: roundedBottom(x0, y0, f.bw, y1 - y0, 4), class: 'seg-neg' }));
+        g.append(sv('text', { x: cx, y: v < 0 ? y1 + 15 : y1 - 7, class: 'bc-v' + (v < 0 ? ' bc-neg' : '') + (f.tight ? ' tight' : ''), 'text-anchor': 'middle' }, f.narrow ? fNum(v) : fPP(v)));
+        attachTip(g, () => tipLines(x));
+      } else noneMark(g, cx, Y(0) - 8, f);
+      g.append(sv('text', { x: cx, y: f.H - 9, class: 'bc-x', 'text-anchor': 'middle' }, bankLabel(b, f.slot)));
+      f.svg.append(g);
+    });
+    div.replaceChildren(f.svg);
+  });
+}
+
+/* ---------- rankings ---------- */
+function rankBy(list, f, tie) {
+  const rows = list.map(x => ({ x, r: headRow(x) }));
+  rows.sort((a, b) => f(b) - f(a) || (tie ? tie(b) - tie(a) : 0) || a.x.order - b.x.order || a.x.tabNo - b.x.tabNo || a.x.prazo - b.x.prazo);
+  let pos = 0, prev = null;
+  rows.forEach((o, i) => {
+    const key = f(o).toFixed(4) + '|' + (tie ? tie(o).toFixed(4) : '');
+    if (key !== prev) { pos = i + 1; prev = key; }
+    o.pos = pos;
+  });
+  return rows;
+}
 let lastW = 0;
 function renderChart1(list) {
   const host = document.getElementById('chart1');
+  const title = document.getElementById('c1-title');
+  if (!list.length) { title.textContent = 'Nenhuma tabela no filtro'; host.replaceChildren(); return; }
   const rows = rankBy(list, o => o.r.TR);
   const minTR = Math.min(...rows.map(o => o.r.TR)), maxTR = Math.max(...rows.map(o => o.r.TR));
   const minMg = Math.min(...rows.map(o => o.r.mg_tot)), maxMg = Math.max(...rows.map(o => o.r.mg_tot));
-  const title = rows.length === 1
+  title.textContent = rows.length === 1
     ? `Recebemos ${fPct(maxTR)} e a margem total é de ${fPP(maxMg)}`
     : `Recebemos de ${fPct(minTR)} a ${fPct(maxTR)}; a margem total fica ` + (Math.abs(maxMg - minMg) < 1e-9 ? `em ${fPP(maxMg)}` : `entre ${fPP(minMg)} e ${fPP(maxMg)}`);
-  document.getElementById('c1-title').textContent = title;
   const W = Math.max(280, Math.round(host.clientWidth || 720));
   lastW = W;
-  const compact = W < 640;
+  const compact = W < 680;
   const n = rows.length;
-  const rowH = compact ? 46 : 34, barH = compact ? 14 : 16;
-  const labelW = compact ? 0 : 270, right = compact ? 112 : 176, top = 4, axisH = 24;
+  const rowH = compact ? 46 : 32, barH = compact ? 14 : 15;
+  const labelW = compact ? 0 : 318, right = compact ? 112 : 176, top = 4, axisH = 24;
   const plotW = Math.max(120, W - labelW - right);
   const xMax = Math.max(2, Math.ceil(maxTR / 2) * 2);
   const X = v => labelW + (v / xMax) * plotW;
@@ -877,39 +933,31 @@ function renderChart1(list) {
     const g = sv('g', { class: 'c1-row', tabindex: 0, role: 'listitem',
       'aria-label': `${o.pos}º ${who(o.x)}: recebido ${fPct(o.r.TR)}, repassado ${fPct(o.r.TP)}, margem total ${fPP(o.r.mg_tot)}` });
     g.append(sv('rect', { x: 0, y: y0 + 1, width: W, height: rowH - 2, rx: 4, class: 'hit' }));
-    const label = sv('text', { class: 'c1-label', x: compact ? 0 : labelW - 12, y: compact ? y0 + 16 : by + barH / 2 + 4.5, 'text-anchor': compact ? 'start' : 'end' },
-      sv('tspan', { class: 'pos' }, `${o.pos}º `), `${o.x.bank} · ${o.x.prodShort}`);
-    g.append(label);
-    const val = sv('text', { class: 'c1-val', x: X(o.r.TR) + 8, y: by + barH / 2 + 4.5 },
-      sv('tspan', { class: 'v' }, fPct(o.r.TR)), sv('tspan', { class: 'm', dx: compact ? 5 : 7 }, compact ? `· ${fPP(o.r.mg_tot)}` : `margem ${fPP(o.r.mg_tot)}`));
-    g.append(val);
+    g.append(sv('text', { class: 'c1-label', x: compact ? 0 : labelW - 12, y: compact ? y0 + 16 : by + barH / 2 + 4.5, 'text-anchor': compact ? 'start' : 'end' },
+      sv('tspan', { class: 'pos' }, `${o.pos}º `), who(o.x)));
+    g.append(sv('text', { class: 'c1-val', x: X(o.r.TR) + 8, y: by + barH / 2 + 4.5 },
+      sv('tspan', { class: 'v' }, fPct(o.r.TR)), sv('tspan', { class: 'm', dx: compact ? 5 : 7 }, compact ? `· ${fPP(o.r.mg_tot)}` : `margem ${fPP(o.r.mg_tot)}`)));
     const xr = X(o.r.TP), xe = X(o.r.TR);
     g.append(sv('rect', { x: X(0), y: by, width: Math.max(0, xr - X(0)), height: barH, class: 'seg-rep' }));
-    const mx = xr + 2;
-    g.append(sv('path', { d: roundedRight(mx, by, Math.max(0, xe - mx), barH, 4), class: 'seg-mg' }));
-    g.addEventListener('pointerenter', e => showTip(tipLines(o), e.clientX, e.clientY));
-    g.addEventListener('pointermove', e => placeTip(e.clientX, e.clientY));
-    g.addEventListener('pointerleave', hideTip);
-    g.addEventListener('focus', () => { const b = g.getBoundingClientRect(); showTip(tipLines(o), b.left + Math.min(b.width - 20, 260), b.top + b.height / 2); });
-    g.addEventListener('blur', hideTip);
+    g.append(sv('path', { d: roundedRight(xr + 2, by, Math.max(0, xe - xr - 2), barH, 4), class: 'seg-mg' }));
+    attachTip(g, () => tipLines(o.x, o.pos));
     svg.append(g);
   });
   host.replaceChildren(svg);
 }
-
-/* ---------- 2º ranking ---------- */
 function renderRank2(list) {
   const rows = rankBy(list, o => o.r.mg_tot, o => o.r.mg_flat);
   document.getElementById('rank2').replaceChildren(...rows.map(o => h('li', { class: 'r2' },
     h('span', { class: 'r2-pos' }, `${o.pos}º`),
-    h('span', { class: 'r2-who' }, h('strong', null, who(o.x)), h('span', { class: 'r2-tab' }, `${o.x.short} · ${o.r.label}`)),
+    h('span', { class: 'r2-who' }, h('strong', null, who(o.x)), h('span', { class: 'r2-tab' }, o.x.short + condOf(o.x))),
     h('span', { class: 'r2-val' }, h('strong', null, fPP(o.r.mg_tot)), h('span', { class: 'r2-flat' + (isNeg(o.r.mg_flat) ? ' neg' : '') }, `flat ${fPP(o.r.mg_flat)}`)))));
 }
 
 /* ---------- visão executiva ---------- */
 const COLS = [
-  { k: 'bank', label: 'Banco', l: true, sortv: o => o.x.order * 10 + o.x.tabNo, dir: 1 },
-  { k: 'tab', label: 'Tabela', l: true, tab: true, sortv: o => o.x.tabNo * 10 + o.x.order, dir: 1 },
+  { k: 'bank', label: 'Banco', l: true, sortv: o => o.order * 1000 + o.tabNo * 100 + o.prazo, dir: 1 },
+  { k: 'prazo', label: 'Prazo', l: true, sortv: o => o.prazo * 1000 + o.tabNo * 100 + o.order, dir: 1 },
+  { k: 'tab', label: 'Tabela', l: true, sortv: o => o.tabNo * 10000 + o.order * 1000 + o.prazo, dir: 1 },
   { k: 'FR', label: 'Flat recebido', f: fPct },
   { k: 'FP', label: 'Flat repassado', f: fPct },
   { k: 'mg_flat', label: 'Margem de flat', f: fPP, sign: true },
@@ -921,24 +969,31 @@ const COLS = [
 ];
 function renderExec(list) {
   const t = document.getElementById('exec');
-  const rows = list.map(x => ({ x, r: headRow(x) }));
+  const rows = list.map(x => ({ x, r: headRow(x), order: x.order, tabNo: x.tabNo, prazo: x.prazo, bank: x.bank, prodShort: x.prodShort }))
+    .concat(missingNow().map(m => ({ missing: true, order: m.order, tabNo: m.prod === 'ML' ? 1 : 2, prazo: m.prazo, bank: m.bank, prodShort: PROD_SHORT[m.prod] })));
   const col = COLS.find(c => c.k === state.sort.key) || COLS[0];
-  const sv_ = c => c.sortv || (c.f ? (o => o.r[c.k]) : (o => o.x.order * 10 + o.x.tabNo));
-  rows.sort((a, b) => (sv_(col)(a) - sv_(col)(b)) * state.sort.dir || a.x.order - b.x.order || a.x.tabNo - b.x.tabNo);
+  const val = o => (col.sortv ? col.sortv(o) : (o.missing ? null : o.r[col.k]));
+  rows.sort((a, b) => {
+    const va = val(a), vb = val(b);
+    if (va == null && vb == null) return a.order - b.order || a.tabNo - b.tabNo || a.prazo - b.prazo;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    return (va - vb) * state.sort.dir || a.order - b.order || a.tabNo - b.tabNo || a.prazo - b.prazo;
+  });
   const head = h('tr', null, COLS.map(c => {
     const active = c.k === state.sort.key;
-    const th = h('th', { scope: 'col', class: c.l ? 'l' : null, 'aria-sort': active ? (state.sort.dir > 0 ? 'ascending' : 'descending') : null });
-    if (c.nd) { th.append(c.label); return th; }
-    th.append(h('button', { type: 'button', onclick: () => {
-      if (state.sort.key === c.k) state.sort.dir *= -1; else { state.sort.key = c.k; state.sort.dir = c.dir || -1; }
-      renderExec(current());
-    } }, c.label, h('span', { class: 'arrow', 'aria-hidden': 'true' }, active ? (state.sort.dir > 0 ? '▲' : '▼') : '')));
-    return th;
+    return h('th', { scope: 'col', class: c.l ? 'l' : null, 'aria-sort': active ? (state.sort.dir > 0 ? 'ascending' : 'descending') : null },
+      h('button', { type: 'button', onclick: () => {
+        if (state.sort.key === c.k) state.sort.dir *= -1; else { state.sort.key = c.k; state.sort.dir = c.dir || -1; }
+        renderExec(current());
+      } }, c.label, h('span', { class: 'arrow', 'aria-hidden': 'true' }, active ? (state.sort.dir > 0 ? '▲' : '▼') : '')));
   }));
-  const body = h('tbody', null, rows.map(o => h('tr', null, COLS.map(c => {
-    if (c.k === 'bank') return h('td', { class: 'l' }, h('span', { class: 'who' }, o.x.bank), h('span', { class: 'sub' }, o.x.prodShort));
-    if (c.tab) return h('td', { class: 'l tabcell' }, o.x.short, h('span', { class: 'sub' }, `${o.r.label} · ${o.x.incid}`));
-    if (c.nd) return h('td', { class: 'nd' }, 'N/D');
+  const body = h('tbody', null, rows.map(o => h('tr', { class: o.missing ? 'is-none' : null }, COLS.map(c => {
+    if (c.k === 'bank') return h('td', { class: 'l' }, h('span', { class: 'who' }, o.bank), h('span', { class: 'sub' }, o.prodShort));
+    if (c.k === 'prazo') return h('td', { class: 'l' }, `${o.prazo}x`);
+    if (c.k === 'tab') return o.missing ? h('td', { class: 'l tabcell none' }, 'Sem tabela neste prazo na base')
+      : h('td', { class: 'l tabcell' }, o.x.short, h('span', { class: 'sub' }, `${o.r.label} · ${o.x.incid}`));
+    if (o.missing) return h('td', { class: 'none' }, '—');
     const v = o.r[c.k];
     return h('td', { class: (c.sign && isNeg(v)) ? 'neg' : (c.acc ? 'acc' : null) }, c.f(v));
   }))));
@@ -957,8 +1012,7 @@ function rbar(v) {
 }
 function renderRepasse(list) {
   const rows = rankBy(list, o => o.r.rep_flat, o => o.r.rep_tot);
-  const t = document.getElementById('repasse');
-  t.replaceChildren(
+  document.getElementById('repasse').replaceChildren(
     h('caption', { class: 'sr-only' }, 'Repasse sobre a comissão recebida'),
     h('thead', null, h('tr', null,
       h('th', { scope: 'col', class: 'l' }, '#'), h('th', { scope: 'col', class: 'l' }, 'Banco · tabela'),
@@ -966,7 +1020,7 @@ function renderRepasse(list) {
       h('th', { scope: 'col' }, 'Total recebido'), h('th', { scope: 'col' }, 'Total repassado'), h('th', { scope: 'col' }, 'Repasse do total'))),
     h('tbody', null, rows.map(o => h('tr', null,
       h('td', { class: 'l' }, `${o.pos}º`),
-      h('td', { class: 'l tabcell' }, h('span', { class: 'who' }, who(o.x)), h('span', { class: 'sub' }, `${o.x.short} · ${o.r.label}`)),
+      h('td', { class: 'l tabcell' }, h('span', { class: 'who' }, who(o.x)), h('span', { class: 'sub' }, o.x.short + condOf(o.x))),
       h('td', null, fPct(o.r.FR)), h('td', null, fPct(o.r.FP)), h('td', null, rbar(o.r.rep_flat)),
       h('td', null, fPct(o.r.TR)), h('td', null, fPct(o.r.TP)), h('td', null, rbar(o.r.rep_tot))))));
 }
@@ -976,10 +1030,10 @@ function renderAll() {
   const list = current();
   syncFilters(list);
   renderKPIs(list);
-  renderMatrix(list);
+  renderMatrix();
   renderStackChart(list);
   renderMarginChart(list);
-  renderBanks(list);
+  renderBanks();
   renderChart1(list);
   renderRank2(list);
   renderExec(list);
