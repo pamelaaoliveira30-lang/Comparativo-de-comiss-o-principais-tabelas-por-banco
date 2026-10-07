@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Comparativo de Comissão</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: coluna de relatório (máx. 1180px) · barra de filtros fixa no desktop · resumo → bancos → ranking → conclusão */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --surface-2:#f5f7f9;
+  --ink:#121a21; --ink-2:#45515c; --ink-3:#66727e;
+  --line:#e1e6eb; --line-strong:#c8d0d8;
+  --accent:#2a78d6; --accent-ink:#1d5fae; --accent-soft:#e7f0fb;
+  --mark-muted:#c3cbd3;
+  --crit:#b83232; --crit-mark:#d03b3b; --crit-soft:#fbe9e9;
+  --warn:#7a5200; --warn-soft:#fff3d6;
+  --shadow:rgba(16,24,32,.16);
+  --font-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --font-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --radius:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1317; --surface:#151b21; --surface-2:#1b2229;
+    --ink:#edf1f4; --ink-2:#b4bfc9; --ink-3:#8d99a5;
+    --line:#242e37; --line-strong:#36424d;
+    --accent:#3987e5; --accent-ink:#86b6ef; --accent-soft:#132639;
+    --mark-muted:#4a5560;
+    --crit:#f08080; --crit-mark:#e05a5a; --crit-soft:#3a1d1f;
+    --warn:#f0c560; --warn-soft:#30260f;
+    --shadow:rgba(0,0,0,.55);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1317; --surface:#151b21; --surface-2:#1b2229;
+  --ink:#edf1f4; --ink-2:#b4bfc9; --ink-3:#8d99a5;
+  --line:#242e37; --line-strong:#36424d;
+  --accent:#3987e5; --accent-ink:#86b6ef; --accent-soft:#132639;
+  --mark-muted:#4a5560;
+  --crit:#f08080; --crit-mark:#e05a5a; --crit-soft:#3a1d1f;
+  --warn:#f0c560; --warn-soft:#30260f;
+  --shadow:rgba(0,0,0,.55);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.page{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:flex;flex-direction:column;gap:30px}
+@media (max-width:520px){.page{padding-inline:16px;gap:24px}}
+h1,h2,h3,h4{font-family:var(--font-display);text-wrap:balance;margin:0;color:var(--ink)}
+h1{font-size:clamp(25px,3.3vw,38px);font-weight:760;font-stretch:112%;letter-spacing:-.012em;line-height:1.08}
+h2{font-size:22px;font-weight:720;font-stretch:108%;letter-spacing:-.004em;line-height:1.2}
+h3{font-size:17px;font-weight:700;line-height:1.25}
+p{margin:0}
+a{color:var(--accent-ink)}
+.eyebrow{font-family:var(--font-display);font-size:12px;font-weight:650;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.masthead{display:flex;flex-direction:column;gap:10px}
+.lede{font-size:17px;color:var(--ink-2);max-width:70ch}
+.asof{font-size:13px;color:var(--ink-3)}
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* barra de filtros */
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px;padding-block:10px;border-block:1px solid var(--line);background:var(--bg)}
+.filters{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;min-width:0}
+.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg-btn{font:inherit;font-size:13.5px;line-height:1.2;padding:7px 12px;border:0;background:transparent;color:var(--ink-2);cursor:pointer}
+.seg-btn+.seg-btn{border-left:1px solid var(--line-strong)}
+.seg-btn:hover{color:var(--ink)}
+.seg-btn[aria-pressed="true"]{background:var(--ink);color:var(--surface);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:13px;line-height:1.2;padding:6px 10px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-2);cursor:pointer}
+.chip:hover{border-color:var(--ink-3);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.tool-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.count{font-size:12.5px;color:var(--ink-3)}
+.jump{display:flex;gap:14px;font-size:13.5px;flex-wrap:wrap}
+.jump a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid transparent}
+.jump a:hover{color:var(--ink);border-bottom-color:var(--line-strong)}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi-label{font-size:13px;color:var(--ink-2)}
+.kpi-value{font-family:var(--font-display);font-size:30px;font-weight:730;line-height:1.1;color:var(--ink)}
+.kpi-sub{font-size:12.5px;color:var(--ink-3);overflow-wrap:anywhere}
+.kpi.nd{background:var(--warn-soft);border-color:transparent}
+.kpi.nd .kpi-value,.kpi.nd .kpi-label{color:var(--warn)}
+
+/* critério / como ler */
+.info{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px 36px;border-top:1px solid var(--line);padding-top:18px}
+@media (max-width:860px){.info{grid-template-columns:minmax(0,1fr)}}
+.info-block{display:flex;flex-direction:column;gap:8px;min-width:0}
+.info-block h2{font-size:16px;font-stretch:104%}
+.info-block p,.info-block li{font-size:14.5px;color:var(--ink-2)}
+.info-block ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.info-block strong{color:var(--ink)}
+dl.formulas{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;margin:0;font-size:14px}
+dl.formulas dt{font-weight:600;color:var(--ink)}
+dl.formulas dd{margin:0;color:var(--ink-2)}
+@media (max-width:520px){dl.formulas{grid-template-columns:minmax(0,1fr)}dl.formulas dd{margin-bottom:6px}}
+
+/* seções */
+.section{display:flex;flex-direction:column;gap:14px;scroll-margin-top:16px}
+.section-head{display:flex;flex-direction:column;gap:4px}
+.section-lede{color:var(--ink-2);max-width:80ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+@media (max-width:520px){.card{padding:14px}}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+
+/* matriz etapa 1 */
+.matrix th,.matrix td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.matrix thead th{font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+.matrix tbody th{font-family:var(--font-display);font-weight:650;white-space:nowrap}
+.matrix tbody th a{color:inherit;text-decoration:none}
+.matrix tbody th a:hover{text-decoration:underline}
+.mx-name{font-weight:600;min-width:12em}
+.mx-meta{font-size:13px;color:var(--ink-3)}
+.matrix tbody tr:last-child th,.matrix tbody tr:last-child td{border-bottom:0}
+
+/* cartões de banco */
+.bank-list{display:flex;flex-direction:column;gap:18px}
+.bank{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:16px;min-width:0}
+@media (max-width:520px){.bank{padding:16px 14px}}
+.bank-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px}
+.bank-no{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--ink-3)}
+.bank-head h3{font-size:21px;font-stretch:110%}
+.bank-pill{margin-left:auto;font-size:12.5px;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+@media (max-width:620px){.bank-pill{margin-left:0}}
+.bank-concl{font-size:15px;color:var(--ink);background:var(--surface-2);border-radius:8px;padding:11px 14px}
+.panels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.panels.single{grid-template-columns:minmax(0,1fr)}
+.panel{min-width:0;display:flex;flex-direction:column;gap:10px;padding-right:22px}
+.panel+.panel{border-left:1px solid var(--line);padding:0 0 0 22px}
+.panels.single .panel{padding:0}
+@media (max-width:920px){
+  .panels{grid-template-columns:minmax(0,1fr)}
+  .panel{padding:0}
+  .panel+.panel{border-left:0;border-top:1px solid var(--line);padding:18px 0 0}
+}
+.panel-tag{font-family:var(--font-display);font-size:12px;font-weight:650;letter-spacing:.07em;text-transform:uppercase;color:var(--accent-ink)}
+.tab-name{font-family:var(--font-body);font-size:15px;font-weight:600;line-height:1.35;overflow-wrap:anywhere}
+.tab-names{margin:0;padding-left:18px;font-weight:600;font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.panel-meta{font-size:13px;color:var(--ink-3)}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fig{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:8px;background:var(--surface-2);min-width:0}
+.fig .k{font-size:12.5px;color:var(--ink-2)}
+.fig .v{font-family:var(--font-display);font-size:22px;font-weight:730;line-height:1.15;color:var(--ink);white-space:nowrap}
+.fig .c{font-size:12px;color:var(--ink-3);overflow-wrap:anywhere}
+.fig.accent{background:var(--accent-soft)}
+.fig.accent .v,.fig.accent .k{color:var(--accent-ink)}
+.fig .c.neg{color:var(--crit)}
+@media (max-width:440px){.trio{gap:6px}.fig{padding:8px}.fig .v{font-size:17px}}
+.trio-note{font-size:12.5px;color:var(--ink-3)}
+.flags{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.flag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;line-height:1.3;padding:3px 9px;border-radius:999px;border:1px solid var(--line)}
+.flag.crit{background:var(--crit-soft);color:var(--crit);border-color:transparent}
+.flag.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.flag.info{background:var(--surface-2);color:var(--ink-2)}
+.flag svg{width:13px;height:13px;flex:none}
+.cond{font-size:13.5px}
+.cond th,.cond td{padding:4px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+@media (max-width:520px){.cond{font-size:13px}.cond th,.cond td{padding:4px 7px}}
+.cond thead th{font-size:12px;font-weight:600;color:var(--ink-3);text-align:right;border-bottom:1px solid var(--line-strong)}
+.cond thead th:first-child{text-align:left;padding-left:0}
+.cond thead th.is-head{color:var(--accent-ink)}
+.cond tbody th{text-align:left;font-weight:500;color:var(--ink-2);padding-left:0}
+.cond td{text-align:right;color:var(--ink)}
+.cond .hint{display:block;font-size:11.5px;color:var(--ink-3);font-weight:400;line-height:1.2}
+.cond tr.grp-start th,.cond tr.grp-start td{border-top:1px solid var(--line-strong)}
+.cond tr.strong th,.cond tr.strong td{font-weight:700;color:var(--ink)}
+.cond tr.accent td{color:var(--accent-ink)}
+.cond td.neg,.cond tr.accent td.neg{color:var(--crit)}
+.notes{margin:0;padding-left:18px;font-size:12.5px;color:var(--ink-3);display:flex;flex-direction:column;gap:2px}
+
+/* ranking */
+.chart-head{display:flex;flex-direction:column;gap:4px}
+.chart-kicker{font-family:var(--font-display);font-size:12px;font-weight:650;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+.chart-title{font-family:var(--font-display);font-size:18px;font-weight:700;line-height:1.25}
+.chart-sub{font-size:13.5px;color:var(--ink-2)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--ink-2);margin:0;padding:0;list-style:none}
+.legend li{display:inline-flex;align-items:center;gap:6px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px}
+.sw.rep{background:var(--mark-muted)}
+.sw.mg{background:var(--accent)}
+.sw.over{background:var(--crit-mark)}
+.sw.line{width:2px;height:14px;border-radius:0;background:var(--ink-2)}
+#chart1{width:100%;min-width:0}
+#chart1 svg{display:block;max-width:100%;height:auto;overflow:visible}
+.grid{stroke:var(--line);stroke-width:1}
+.base{stroke:var(--line-strong);stroke-width:1}
+.tick{fill:var(--ink-3);font-size:11.5px;font-family:var(--font-body)}
+.c1-label{fill:var(--ink);font-size:13px;font-family:var(--font-body)}
+.c1-label .pos{fill:var(--ink-3);font-weight:600}
+.c1-val{font-size:12.5px;font-family:var(--font-body)}
+.c1-val .v{fill:var(--ink);font-weight:700}
+.c1-val .m{fill:var(--ink-2)}
+.seg-rep{fill:var(--mark-muted)}
+.seg-mg{fill:var(--accent)}
+.c1-row{cursor:default;outline:none}
+.c1-row .hit{fill:transparent}
+.c1-row:hover .hit,.c1-row:focus .hit{fill:var(--surface-2)}
+.c1-row:focus-visible .hit{stroke:var(--accent);stroke-width:1.5}
+.rank-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.rank-grid{grid-template-columns:minmax(0,1fr)}}
+.rank2{list-style:none;margin:0;padding:0;columns:2 340px;column-gap:44px}
+.r2{display:grid;grid-template-columns:2.4em minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);break-inside:avoid}
+.r2:last-child{border-bottom:0}
+.r2-pos{font-family:var(--font-display);font-weight:700;color:var(--ink-3)}
+.r2-who{display:flex;flex-direction:column;min-width:0}
+.r2-who strong{font-weight:600}
+.r2-tab{font-size:12.5px;color:var(--ink-3);overflow-wrap:anywhere}
+.r2-val{display:flex;flex-direction:column;align-items:flex-end;font-variant-numeric:tabular-nums;white-space:nowrap}
+.r2-val strong{font-size:15px}
+.r2-flat{font-size:12.5px;color:var(--ink-3)}
+.r2-flat.neg{color:var(--crit)}
+.nd-card{background:var(--warn-soft);border-color:transparent}
+.nd-card .chart-kicker,.nd-big{color:var(--warn)}
+.nd-big{font-family:var(--font-display);font-size:34px;font-weight:760;line-height:1}
+.nd-card p{color:var(--ink-2);font-size:14.5px}
+.data{font-size:13.5px}
+.data th,.data td{padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;text-align:right;vertical-align:middle}
+.data th:first-child,.data td:first-child{padding-left:0}
+.data .l{text-align:left}
+.data thead th{font-size:12px;font-weight:600;line-height:1.25;color:var(--ink-3);border-bottom:1px solid var(--line-strong);vertical-align:bottom;white-space:normal;min-width:4.6em}
+.data thead button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit;display:inline-flex;gap:3px;align-items:flex-end;white-space:normal}
+.data thead button:hover{color:var(--ink)}
+.data thead th[aria-sort] button{color:var(--ink)}
+.data .arrow{font-size:10px;width:.8em;display:inline-block}
+.data td.neg{color:var(--crit)}
+.data td.acc{color:var(--accent-ink);font-weight:700}
+.data td.nd{color:var(--ink-3)}
+.data tbody tr:hover td,.data tbody tr:hover th{background:var(--surface-2)}
+.data .tabcell{white-space:normal;min-width:13em;max-width:22em}
+.data .who{font-weight:600}
+.data .sub{display:block;font-size:12px;color:var(--ink-3);font-weight:400}
+.rbar{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.rbar-track{position:relative;width:104px;height:10px;border-radius:3px;background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--line);flex:none}
+.rbar-fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:3px 0 0 3px}
+.rbar-over{position:absolute;top:0;bottom:0;background:var(--crit-mark);border-radius:0 3px 3px 0}
+.rbar-100{position:absolute;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:var(--ink-2)}
+.rbar-v{min-width:4.6em;text-align:right}
+.rbar-v.neg{color:var(--crit);font-weight:600}
+.qa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px}
+@media (max-width:820px){.qa{grid-template-columns:minmax(0,1fr)}}
+.qa-item{padding:14px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-width:0}
+.qa-item.wide{grid-column:1/-1}
+.qa-q{font-family:var(--font-display);font-weight:680;font-size:15.5px;line-height:1.3}
+.qa-a{color:var(--ink-2);font-size:14.5px}
+.qa-a strong{color:var(--ink)}
+.qa-a ol{margin:4px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+.small-note{font-size:12.5px;color:var(--ink-3)}
+.impact{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start}
+.impact svg{width:20px;height:20px;color:var(--warn);margin-top:2px}
+.impact p{color:var(--ink-2)}
+.impact .must{color:var(--ink);font-weight:600}
+
+/* bancos lado a lado */
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:22px 40px}
+.mini{margin:0;min-width:0;display:flex;flex-direction:column;gap:2px}
+.mini figcaption{font-family:var(--font-display);font-size:12.5px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.mini-plot{width:100%;min-width:0}
+.mini-plot svg{display:block;max-width:100%;height:auto;overflow:visible}
+.bc-v{fill:var(--ink);font-size:12.5px;font-weight:700;font-family:var(--font-body)}
+.bc-m{fill:var(--accent-ink);font-size:11.5px;font-weight:600;font-family:var(--font-body)}
+.bc-x{fill:var(--ink-2);font-size:12px;font-weight:600;font-family:var(--font-body)}
+.bc-neg{fill:var(--crit)}
+.bc-v.tight{font-size:11px}
+.bc-m.tight{font-size:10.5px}
+.bc-col{outline:none;cursor:default}
+.bc-col .hit{fill:transparent}
+.bc-col:hover .hit,.bc-col:focus .hit{fill:var(--surface-2)}
+.bc-col:focus-visible .hit{stroke:var(--accent);stroke-width:1.5}
+.seg-neg{fill:var(--crit-mark);fill-opacity:.88}
+.section-head.sub{margin-top:8px}
+.section-head.sub h3{font-size:19px;font-stretch:106%}
+.sum{min-width:0;display:flex;flex-direction:column;gap:10px;padding-right:22px}
+.sum+.sum{border-left:1px solid var(--line);padding:0 0 0 22px}
+.panels.single .sum{padding:0}
+@media (max-width:920px){.sum{padding:0}.sum+.sum{border-left:0;border-top:1px solid var(--line);padding:18px 0 0}}
+details.more{border-top:1px solid var(--line);padding-top:12px}
+details.more>summary{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--accent-ink);list-style:none;display:inline-flex;align-items:center;gap:9px;border-radius:6px;padding:2px 0}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::before{content:"";width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(-45deg);transition:transform .15s ease}
+details.more[open]>summary::before{transform:rotate(45deg)}
+details.more>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+details.more>.panels{margin-top:14px}
+@media (prefers-reduced-motion: reduce){details.more>summary::before{transition:none}}
+
+/* conclusão */
+.concl{background:var(--accent-soft);border-radius:var(--radius);padding:22px 24px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
+@media (max-width:520px){.concl{padding:16px}}
+.concl ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px;font-size:15.5px;color:var(--ink);max-width:95ch}
+.concl ol strong{color:var(--accent-ink)}
+footer{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:4px}
+
+/* dica */
+#tip{position:fixed;z-index:60;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 8px 28px var(--shadow);padding:9px 11px;font-size:12.5px;max-width:300px;display:flex;flex-direction:column;gap:2px;left:0;top:0}
+#tip .tt-h{font-weight:700;font-size:13px}
+#tip .tt-s{color:var(--ink-3);margin-bottom:3px}
+#tip .tt-r{color:var(--ink-2);font-variant-numeric:tabular-nums}
+#tip .tt-r b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <div class="eyebrow">INSS · 7 bancos · Margem Livre (Novo) e Port + Refin</div>
+    <h1>Comparativo de comissão — principais tabelas por banco</h1>
+    <p class="lede">Quanto recebemos, quanto repassamos aos parceiros e quanto fica para a empresa nas duas tabelas de maior comissão de cada banco. Todos os percentuais são os exatos da base, sem médias.</p>
+    <p class="asof" id="asof">Base Prazos_unificado de 07/10/2026</p>
+  </header>
+
+  <nav class="toolbar" aria-label="Filtros">
+    <div class="filters">
+      <div class="seg" id="f-prod" role="group" aria-label="Produto"></div>
+      <div class="chips" id="f-bank" role="group" aria-label="Bancos"></div>
+    </div>
+    <div class="tool-right">
+      <span class="count" id="f-count" aria-live="polite"></span>
+      <div class="jump"><a href="#tabelas">Tabelas</a><a href="#bancos">Bancos</a><a href="#ranking">Ranking</a><a href="#conclusao">Conclusão</a></div>
+    </div>
+  </nav>
+
+  <section class="kpis" id="kpis" aria-label="Resumo"></section>
+
+  <section class="info" aria-label="Critério e leitura">
+    <div class="info-block">
+      <h2>Critério de seleção</h2>
+      <p>Em cada banco, as duas tabelas analisadas são as de <strong>maior comissão recebida</strong> (Flat + Bônus + Adiantamento, na melhor condição da tabela): uma de <strong>Margem Livre (Novo)</strong> e uma de <strong>Port + Refin</strong>.</p>
+      <ul>
+        <li>Tabelas empatadas com os mesmos percentuais aparecem juntas.</li>
+        <li>Sem cartão. Incidência (líquido, bruto, bruto-líquido) indicada em cada tabela; os percentuais são nominais.</li>
+      </ul>
+    </div>
+    <div class="info-block">
+      <h2>Como ler as margens</h2>
+      <dl class="formulas">
+        <dt>Margem de flat</dt><dd>Flat recebido − Flat repassado</dd>
+        <dt>Margem de adiantamento</dt><dd>Adiantamento recebido − Adiantamento repassado</dd>
+        <dt>Margem total</dt><dd>(Flat + Bônus + Adiantamento recebidos) − (Flat + Adiantamento repassados)</dd>
+        <dt>Repasse</dt><dd>Repassado ÷ recebido, pelo flat e pelo total</dd>
+      </dl>
+      <p>O bônus aparece separado. Em várias tabelas o flat pago ao parceiro inclui parte do bônus ou do adiantamento: a margem de flat fica negativa e a margem total mostra o que efetivamente fica com a empresa.</p>
+    </div>
+  </section>
+
+  <section class="section" id="tabelas">
+    <div class="section-head">
+      <h2>As 14 tabelas analisadas</h2>
+      <p class="section-lede">Em cada banco, a tabela de maior comissão recebida em cada produto.</p>
+    </div>
+    <div class="card"><div class="table-wrap"><table class="matrix" id="matrix"></table></div></div>
+  </section>
+
+  <section class="section" id="bancos">
+    <div class="section-head">
+      <h2>Comparativo por banco</h2>
+      <p class="section-lede">Os 7 bancos lado a lado, na tabela de maior comissão de cada produto. Passe o mouse ou toque numa coluna para ver a tabela e a composição.</p>
+    </div>
+
+    <div class="card">
+      <div class="chart-head">
+        <div class="chart-kicker">Recebido, repassado e margem total</div>
+        <div class="chart-title" id="bc1-title"></div>
+        <p class="chart-sub">Altura da coluna = comissão recebida (Flat + Bônus + Adiantamento). Em cinza o que repassamos ao parceiro; em azul a margem total que fica com a empresa, com o valor em p.p. acima.</p>
+      </div>
+      <ul class="legend"><li><span class="sw rep"></span>Repassado ao parceiro</li><li><span class="sw mg"></span>Margem total da empresa</li></ul>
+      <div class="mini-grid" id="bc1" role="list" aria-label="Comissão recebida, repassada e margem por banco"></div>
+    </div>
+
+    <div class="card">
+      <div class="chart-head">
+        <div class="chart-kicker">Margem de flat · Flat recebido − Flat repassado</div>
+        <div class="chart-title" id="bc2-title"></div>
+        <p class="chart-sub">Fica negativa quando o flat pago ao parceiro é maior que o flat recebido; nesses casos a diferença é coberta pelo bônus ou pelo adiantamento recebidos.</p>
+      </div>
+      <ul class="legend"><li><span class="sw mg"></span>Positiva: fica com a empresa</li><li><span class="sw over"></span>Negativa: flat repassado acima do recebido</li></ul>
+      <div class="mini-grid" id="bc2" role="list" aria-label="Margem de flat por banco"></div>
+    </div>
+
+    <div class="section-head sub">
+      <h3>Conclusão por banco</h3>
+      <p class="section-lede">Tabela 1 é Margem Livre (Novo) e Tabela 2 é Port + Refin. Os números mostram a condição de maior comissão; abra “Ver todas as condições” para os percentuais de cada prazo.</p>
+    </div>
+    <div class="bank-list" id="bank-list"></div>
+  </section>
+
+  <section class="section" id="ranking">
+    <div class="section-head">
+      <h2>Ranking geral</h2>
+      <p class="section-lede">São dois rankings diferentes: o 1º mede quanto recebemos e o 2º quanto fica com a empresa. Eles não apontam para as mesmas tabelas: a maior comissão da análise é a última em margem de flat.</p>
+    </div>
+
+    <div class="card">
+      <div class="chart-head">
+        <div class="chart-kicker">1º ranking · Maior comissão recebida</div>
+        <div class="chart-title" id="c1-title"></div>
+        <p class="chart-sub">Comissão recebida (Flat + Bônus + Adiantamento) dividida entre o que repassamos e o que fica com a empresa, na condição de maior comissão de cada tabela.</p>
+      </div>
+      <ul class="legend"><li><span class="sw rep"></span>Repassado ao parceiro</li><li><span class="sw mg"></span>Margem total da empresa</li></ul>
+      <div id="chart1" role="list" aria-label="Ranking de comissão recebida"></div>
+    </div>
+
+    <div class="card">
+      <div class="chart-head">
+        <div class="chart-kicker">2º ranking · Maior margem retida</div>
+        <div class="chart-title">Ordenado pela margem total; empates pela margem de flat</div>
+      </div>
+      <ol class="rank2" id="rank2"></ol>
+    </div>
+
+    <div class="card">
+      <div class="chart-head">
+        <div class="chart-kicker">Visão executiva</div>
+        <div class="chart-title">As 14 tabelas lado a lado</div>
+        <p class="chart-sub">Condição de maior comissão de cada tabela. Clique no título de uma coluna para ordenar.</p>
+      </div>
+      <div class="table-wrap"><table class="data" id="exec"></table></div>
+    </div>
+
+    <div class="card">
+      <div class="chart-head">
+        <div class="chart-kicker">Análise de repasse</div>
+        <div class="chart-title" id="rp-title">Quanto da comissão recebida vai para o parceiro</div>
+        <p class="chart-sub">Ordenado pelo repasse do flat (Flat repassado ÷ Flat recebido). As barras vão de 0% a 210%, com marca em 100%.</p>
+      </div>
+      <ul class="legend"><li><span class="sw mg"></span>Até 100% do recebido</li><li><span class="sw over"></span>Acima de 100% (pagamos mais do que recebemos naquela parcela)</li><li><span class="sw line"></span>100%</li></ul>
+      <div class="table-wrap"><table class="data" id="repasse"></table></div>
+    </div>
+
+    <div class="card">
+      <div class="chart-head">
+        <div class="chart-kicker">Comparação direta</div>
+        <p class="small-note">Os textos abaixo e a conclusão consideram as 14 tabelas, qualquer que seja o filtro.</p>
+      </div>
+      <div class="qa">
+        <div class="qa-item">
+          <div class="qa-q">Qual banco paga a melhor comissão?</div>
+          <p class="qa-a">Em <strong>Margem Livre</strong> há empate técnico: de 12,50% a 13,05% (BMG 13,05% na faixa de bônus mais alta; FOX, Happy e iCred 13,00%). A diferença está em <strong>Port + Refin</strong>: a C6 paga 9,00%, 1,50 p.p. acima de FOX e Qualibanking (7,50%). Considerando as duas tabelas, <strong>C6 BANK</strong> tem as melhores condições: lidera Port + Refin e fica a 0,10 p.p. do topo em Margem Livre.</p>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q">Qual banco deixa maior margem para a empresa?</div>
+          <p class="qa-a">Pela fórmula Flat recebido − Flat repassado, a <strong>FOX DIGITAL</strong>: 1,50 p.p. nas duas tabelas. Em Margem Livre, quatro bancos ficam negativos nessa conta (BMG −6,05; iCred −6,00; C6 −5,95; FACTA −5,70 p.p.), porque o flat do parceiro inclui adiantamento e bônus. Pela margem total, a maior é a <strong>C6 Port + Refin</strong> (1,75 p.p.), seguida das duas tabelas da FOX (1,50 p.p.).</p>
+        </div>
+        <div class="qa-item wide">
+          <div class="qa-q">Onde estamos repassando mais proporcionalmente?</div>
+          <p class="qa-a">Pelo flat (Flat repassado ÷ Flat recebido), na <strong>Margem Livre de BMG (200,83%), iCred (200,00%), C6 (199,17%) e FACTA (195,00%)</strong> e em iCred Port + Refin (104,17%): nelas o flat pago supera o recebido. A Qualibanking Margem Livre repassa exatamente 100,00% do flat. Sobre o total recebido, o maior repasse é de 92,34% (BMG Margem Livre).</p>
+        </div>
+        <div class="qa-item wide">
+          <div class="qa-q">Onde está a maior oportunidade de negociação?</div>
+          <div class="qa-a">Pelos percentuais, três pontos combinam repasse alto e margem baixa:
+            <ol>
+              <li><strong>Qualibanking Margem Livre</strong>: 100% do flat repassado; a margem de 1,00 p.p. depende só do bônus.</li>
+              <li><strong>Margem Livre de BMG, iCred, C6 e FACTA</strong>: repassamos cerca de 92% do que recebemos, e o flat do parceiro só fecha com bônus e adiantamento.</li>
+              <li><strong>Happy Port + Refin</strong>: margem de flat de 0,30 p.p. (95,00% do flat repassado).</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="concl" id="conclusao">
+    <h2>Conclusão executiva</h2>
+    <ol>
+      <li><strong>Tabelas:</strong> as 2 tabelas de cada banco são as de maior comissão em Margem Livre (Novo) e em Port + Refin (quadro no topo).</li>
+      <li><strong>Melhor comissão:</strong> em Margem Livre os bancos empatam entre 12,50% e 13,05%; em Port + Refin a C6 lidera com 9,00%.</li>
+      <li><strong>Maior margem:</strong> FOX, com 1,50 p.p. nas duas tabelas; a maior margem total isolada é a da C6 Port + Refin (1,75 p.p.).</li>
+      <li><strong>Padrão:</strong> em 10 das 14 tabelas a margem total é de 1,00 p.p.; quanto maior a comissão, maior a fatia repassada (até 92% em Margem Livre).</li>
+      <li><strong>Repasse elevado:</strong> na Margem Livre de BMG, iCred, C6 e FACTA o flat pago ao parceiro é cerca do dobro do flat recebido; a Qualibanking repassa 100% do flat.</li>
+      <li><strong>Renegociar:</strong> avaliar Qualibanking Margem Livre, a Margem Livre de BMG, iCred, C6 e FACTA e a Happy Port + Refin.</li>
+    </ol>
+  </section>
+
+  <footer>
+    <span id="foot-src"></span>
+    <span>Nomes de tabela com códigos HTML (&amp;#37; e &amp;#62;) foram corrigidos para % e &gt;. Percentuais conferidos linha a linha contra a base.</span>
+  </footer>
+</div>
+<div id="tip" role="tooltip" hidden></div>
+
+<script>
+const D = {"meta":{"file":"Prazos_unificado_07_10_2026.csv","nRaw":817,"nDup":5,"nRows":812,"nTab":524,"conv":["INSS"],"date":"07/10/2026"},"banks":[{"key":"facta","name":"FACTA","baseName":"FACTA FINANCEIRA","order":1,"concl":"Nas duas tabelas a FACTA deixa 1,00 p.p. de margem total. Em Margem Livre o flat repassado (11,70% no 108x) é quase o dobro do flat recebido (6,00%) e só fecha com os 6,70% de adiantamento: repassamos 92,13% de tudo o que recebemos. É a tabela da FACTA que mais merece revisão."},{"key":"fox","name":"FOX DIGITAL","baseName":"FOX DIGITAL","order":2,"concl":"Única com 1,50 p.p. de margem nas duas tabelas, toda em flat, sem bônus nem adiantamento. Repassamos 88,46% em Margem Livre e 80,00% em Port + Refin. É a maior margem de flat entre as 14 tabelas."},{"key":"happy","name":"BANCO HAPPY CONSIG","baseName":"BANCO HAPPY CONSIG","order":3,"concl":"Margem total de 1,20 p.p. em Margem Livre e 1,00 p.p. em Port + Refin, mas só 0,50 e 0,30 p.p. vêm do flat; o resto é o bônus de 0,70%. Em Port + Refin repassamos 95,00% do flat: é a menor margem de flat positiva da análise."},{"key":"quali","name":"QUALIBANKING","baseName":"QUALIBANKING","order":4,"concl":"Em Margem Livre repassamos 100% do flat (11,50% recebido e repassado), e a margem de 1,00 p.p. vem inteira do bônus. Em Port + Refin retemos 0,50 p.p. de flat mais 0,50 p.p. de bônus. Margem Livre é o ponto de atenção: sem o bônus, a margem seria zero."},{"key":"bmg","name":"BMG","baseName":"BANCO BMG","order":5,"concl":"Maior comissão de Margem Livre (13,05% na faixa de bônus mais alta) e menor de Port + Refin (4,00%). Em Margem Livre o flat repassado acompanha o bônus e chega a 12,05%, o dobro do flat recebido; a margem total fica em 1,00 p.p. nas três faixas. Em Port + Refin retemos 1,00 p.p. sobre 4,00% (repasse de 75,00%)."},{"key":"c6","name":"C6 BANK","baseName":"BANCO C6 BANK","order":6,"concl":"Maior comissão de Port + Refin (9,00%: 6,00% de flat e 3,00% de adiantamento) e maior margem total da análise nessa tabela, 1,75 p.p. (1,00 de flat e 0,75 de adiantamento). Em Margem Livre a margem total é de 1,00 p.p., com flat repassado de 11,95% sobre 6,00% recebido."},{"key":"icred","name":"ICRED","baseName":"ICRED FINANCEIRA","order":7,"concl":"Nas duas tabelas a iCred deixa 1,00 p.p. de margem total. Em Margem Livre o flat repassado chega a 12,00% sobre 6,00% de flat recebido, coberto pelo adiantamento de 7,00%. Em Port + Refin a margem de flat vai de 0,90 p.p. (condição A) a −0,25 p.p. (condição D, com 1,00% de adiantamento)."}],"sel":[{"id":"facta-ml","bankKey":"facta","bank":"FACTA","order":1,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["68675 - SMART 2 - 90D - (Acima de R$ 20.000,01) - Clientes com até 67"],"short":"68675 SMART 2 90D","incid":"líquido","nTablesOp":17,"rows":[{"label":"96x","prazo":96,"FR":6.0,"BR":0.0,"AR":5.0,"FP":10.0,"AP":0.0,"TR":11.0,"TP":10.0,"mg_flat":-4.0,"mg_adi":5.0,"mg_tot":1.0,"rep_flat":166.66666666666669,"rep_tot":90.9090909090909},{"label":"108x","prazo":108,"FR":6.0,"BR":0.0,"AR":6.7,"FP":11.7,"AP":0.0,"TR":12.7,"TP":11.7,"mg_flat":-5.7,"mg_adi":6.7,"mg_tot":1.0,"rep_flat":195.0,"rep_tot":92.1259842519685}],"head":"108x","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido"}],"notes":[]},{"id":"facta-rp","bankKey":"facta","bank":"FACTA","order":1,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["65480 - Refin da Port - NORMAL (90D) - Maior de 12 pagas - GRUPO 5 - ACIMA DE R$14.000,00"],"short":"65480 Refin Port NORMAL 90D G5","incid":"bruto","nTablesOp":108,"rows":[{"label":"96x","prazo":96,"FR":5.4,"BR":0.0,"AR":0.0,"FP":4.4,"AP":0.0,"TR":5.4,"TP":4.4,"mg_flat":1.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":81.4814814814815,"rep_tot":81.4814814814815},{"label":"108x","prazo":108,"FR":6.9,"BR":0.0,"AR":0.0,"FP":5.9,"AP":0.0,"TR":6.9,"TP":5.9,"mg_flat":1.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":85.5072463768116,"rep_tot":85.5072463768116}],"head":"108x","flags":[],"notes":[]},{"id":"fox-ml","bankKey":"fox","bank":"FOX DIGITAL","order":2,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["INSS NOVO 25MIL - CARÊNCIA"],"short":"INSS NOVO 25MIL - CARÊNCIA","incid":"líquido","nTablesOp":6,"rows":[{"label":"108x","prazo":108,"FR":13.0,"BR":0.0,"AR":0.0,"FP":11.5,"AP":0.0,"TR":13.0,"TP":11.5,"mg_flat":1.5,"mg_adi":0.0,"mg_tot":1.5,"rep_flat":88.46153846153845,"rep_tot":88.46153846153845}],"head":"108x","flags":[],"notes":[]},{"id":"fox-rp","bankKey":"fox","bank":"FOX DIGITAL","order":2,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["PORT + REFIN 1,85 - CARÊNCIA"],"short":"PORT + REFIN 1,85 - CARÊNCIA","incid":"bruto","nTablesOp":6,"rows":[{"label":"108x","prazo":108,"FR":7.5,"BR":0.0,"AR":0.0,"FP":6.0,"AP":0.0,"TR":7.5,"TP":6.0,"mg_flat":1.5,"mg_adi":0.0,"mg_tot":1.5,"rep_flat":80.0,"rep_tot":80.0}],"head":"108x","flags":[],"notes":[]},{"id":"happy-ml","bankKey":"happy","bank":"BANCO HAPPY CONSIG","order":3,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["HAPPY - MARGEM LIVRE - 1,85%"],"short":"MARGEM LIVRE - 1,85%","incid":"líquido","nTablesOp":2,"rows":[{"label":"96x · A","prazo":96,"FR":10.05,"BR":0.7,"AR":0.0,"FP":9.55,"AP":0.0,"TR":10.75,"TP":9.55,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.02487562189054,"rep_tot":88.83720930232559},{"label":"96x · B","prazo":96,"FR":10.3,"BR":0.7,"AR":0.0,"FP":9.8,"AP":0.0,"TR":11.0,"TP":9.8,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.14563106796116,"rep_tot":89.0909090909091},{"label":"108x · A","prazo":108,"FR":11.8,"BR":0.7,"AR":0.0,"FP":11.3,"AP":0.0,"TR":12.5,"TP":11.3,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.76271186440678,"rep_tot":90.4},{"label":"108x · B","prazo":108,"FR":12.3,"BR":0.7,"AR":0.0,"FP":11.8,"AP":0.0,"TR":13.0,"TP":11.8,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.2,"rep_flat":95.9349593495935,"rep_tot":90.76923076923077}],"head":"108x · B","flags":[{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"happy-rp","bankKey":"happy","bank":"BANCO HAPPY CONSIG","order":3,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["HAPPY - PORT+REFIN - 1,85%"],"short":"PORT+REFIN - 1,85%","incid":"bruto","nTablesOp":17,"rows":[{"label":"108x · A","prazo":108,"FR":3.0,"BR":0.7,"AR":0.0,"FP":2.7,"AP":0.0,"TR":3.7,"TP":2.7,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":90.0,"rep_tot":72.97297297297297},{"label":"108x · B","prazo":108,"FR":4.0,"BR":0.7,"AR":0.0,"FP":3.7,"AP":0.0,"TR":4.7,"TP":3.7,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":92.5,"rep_tot":78.72340425531915},{"label":"108x · C","prazo":108,"FR":4.9,"BR":0.7,"AR":0.0,"FP":4.6,"AP":0.0,"TR":5.6,"TP":4.6,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":93.87755102040815,"rep_tot":82.14285714285714},{"label":"108x · D","prazo":108,"FR":6.0,"BR":0.7,"AR":0.0,"FP":5.7,"AP":0.0,"TR":6.7,"TP":5.7,"mg_flat":0.3,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":95.0,"rep_tot":85.07462686567165}],"head":"108x · D","flags":[{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"quali-ml","bankKey":"quali","bank":"QUALIBANKING","order":4,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["000613 NOVO CARÊNCIA 90D 108X 1,85% - 1093","000614 ENTRANTE CARÊNCIA 90D 108X 1,85% - 1094","000618 NOVO AUMENTO CAR 90D 108X 1,85%"],"short":"000613 / 000614 / 000618","incid":"líquido","nTablesOp":32,"rows":[{"label":"108x","prazo":108,"FR":11.5,"BR":1.0,"AR":0.0,"FP":11.5,"AP":0.0,"TR":12.5,"TP":11.5,"mg_flat":0.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":100.0,"rep_tot":92.0}],"head":"108x","flags":[{"kind":"warn","text":"100% do flat repassado"},{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["As tabelas listadas têm percentuais idênticos e aparecem juntas."]},{"id":"quali-rp","bankKey":"quali","bank":"QUALIBANKING","order":4,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["000418 PORT + REFIN 1,85% 108X S/ SEG MIN 6 MIL CAR 90D"],"short":"000418 PORT + REFIN 1,85%","incid":"bruto","nTablesOp":70,"rows":[{"label":"108x","prazo":108,"FR":7.0,"BR":0.5,"AR":0.0,"FP":6.5,"AP":0.0,"TR":7.5,"TP":6.5,"mg_flat":0.5,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":92.85714285714286,"rep_tot":86.66666666666667}],"head":"108x","flags":[{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":[]},{"id":"bmg-ml","bankKey":"bmg","bank":"BMG","order":5,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["BMG - INSS NORMAL DG TK 90C 108X - 5250"],"short":"5250 INSS NORMAL DG TK 90C","incid":"líquido","nTablesOp":10,"rows":[{"label":"108x · A","prazo":108,"FR":6.0,"BR":1.5,"AR":1.8,"FP":8.3,"AP":0.0,"TR":9.3,"TP":8.3,"mg_flat":-2.3,"mg_adi":1.8,"mg_tot":1.0,"rep_flat":138.33333333333334,"rep_tot":89.24731182795699},{"label":"108x · B","prazo":108,"FR":6.0,"BR":3.25,"AR":1.8,"FP":10.05,"AP":0.0,"TR":11.05,"TP":10.05,"mg_flat":-4.05,"mg_adi":1.8,"mg_tot":1.0,"rep_flat":167.5,"rep_tot":90.9502262443439},{"label":"108x · C","prazo":108,"FR":6.0,"BR":5.25,"AR":1.8,"FP":12.05,"AP":0.0,"TR":13.05,"TP":12.05,"mg_flat":-6.05,"mg_adi":1.8,"mg_tot":1.0,"rep_flat":200.83333333333334,"rep_tot":92.33716475095785}],"head":"108x · C","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido"},{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"bmg-rp","bankKey":"bmg","bank":"BMG","order":5,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["INSS REF PORT FLEX 1 DIGITAL - 9000/9062"],"short":"9000/9062 REF PORT FLEX 1","incid":"líquido","nTablesOp":2,"rows":[{"label":"96x","prazo":96,"FR":4.0,"BR":0.0,"AR":0.0,"FP":3.0,"AP":0.0,"TR":4.0,"TP":3.0,"mg_flat":1.0,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":75.0,"rep_tot":75.0}],"head":"96x","flags":[],"notes":[]},{"id":"c6-ml","bankKey":"c6","bank":"C6 BANK","order":6,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["Tkt > 20k (+90d Car)-DWeb-ML - 210415","Tkt > 20k (+90d Car)-Plus-ML - 210439"],"short":"210415 / 210439 Tkt > 20k","incid":"líquido","nTablesOp":104,"rows":[{"label":"96x","prazo":96,"FR":5.25,"BR":1.2,"AR":0.0,"FP":5.45,"AP":0.0,"TR":6.45,"TP":5.45,"mg_flat":-0.2,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":103.80952380952382,"rep_tot":84.49612403100775},{"label":"108x","prazo":108,"FR":6.0,"BR":1.2,"AR":5.75,"FP":11.95,"AP":0.0,"TR":12.95,"TP":11.95,"mg_flat":-5.95,"mg_adi":5.75,"mg_tot":1.0,"rep_flat":199.16666666666666,"rep_tot":92.27799227799228}],"head":"108x","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido"},{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["As tabelas listadas têm percentuais idênticos e aparecem juntas."]},{"id":"c6-rp","bankKey":"c6","bank":"C6 BANK","order":6,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["C6 - Tx1,850~1,78 (+30d Car) Normal-Plus-RfnP - 240198","C6 - Tx1,850~1,78 (+30d Car) Normal-Web-RfnP - 240178","C6 - Tx1,850~1,78 (+90d Car) Normal-Plus-RfnP - 240200","C6 - Tx1,850~1,78 (+90d Car) Normal-Web-RfnP - 240180"],"short":"240178 / 240198 / 240180 / 240200","incid":"bruto-líquido","nTablesOp":29,"rows":[{"label":"96x","prazo":96,"FR":5.5,"BR":0.0,"AR":3.0,"FP":4.5,"AP":2.25,"TR":8.5,"TP":6.75,"mg_flat":1.0,"mg_adi":0.75,"mg_tot":1.75,"rep_flat":81.81818181818183,"rep_tot":79.41176470588235},{"label":"108x","prazo":108,"FR":6.0,"BR":0.0,"AR":3.0,"FP":5.0,"AP":2.25,"TR":9.0,"TP":7.25,"mg_flat":1.0,"mg_adi":0.75,"mg_tot":1.75,"rep_flat":83.33333333333334,"rep_tot":80.55555555555556}],"head":"108x","flags":[],"notes":["As tabelas listadas empatam na maior comissão e têm os mesmos percentuais nos prazos em comum.","96x: condição presente só em C6 - Tx1,850~1,78 (+30d Car) Normal-Web-RfnP - 240178."]},{"id":"icred-ml","bankKey":"icred","bank":"ICRED","order":7,"prod":"ML","prodShort":"Margem Livre","prodFull":"Margem Livre (Novo)","opBase":"Margem Livre (Novo)","tabNo":1,"tables":["INSS - NOVO - NORMAL","INSS - NOVO - NORMAL - 90D"],"short":"INSS - NOVO - NORMAL (+ 90D)","incid":"líquido","nTablesOp":8,"rows":[{"label":"96x","prazo":96,"FR":6.0,"BR":0.0,"AR":2.0,"FP":7.0,"AP":0.0,"TR":8.0,"TP":7.0,"mg_flat":-1.0,"mg_adi":2.0,"mg_tot":1.0,"rep_flat":116.66666666666667,"rep_tot":87.5},{"label":"108x · A","prazo":108,"FR":6.0,"BR":0.0,"AR":6.0,"FP":11.0,"AP":0.0,"TR":12.0,"TP":11.0,"mg_flat":-5.0,"mg_adi":6.0,"mg_tot":1.0,"rep_flat":183.33333333333331,"rep_tot":91.66666666666666},{"label":"108x · B","prazo":108,"FR":6.0,"BR":0.0,"AR":7.0,"FP":12.0,"AP":0.0,"TR":13.0,"TP":12.0,"mg_flat":-6.0,"mg_adi":7.0,"mg_tot":1.0,"rep_flat":200.0,"rep_tot":92.3076923076923}],"head":"108x · B","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido"}],"notes":["As tabelas listadas empatam na maior comissão e têm os mesmos percentuais nos prazos em comum.","96x: condição presente só em INSS - NOVO - NORMAL.","A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]},{"id":"icred-rp","bankKey":"icred","bank":"ICRED","order":7,"prod":"RP","prodShort":"Port + Refin","prodFull":"Port + Refin","opBase":"Refinanciamento da Portabilidade","tabNo":2,"tables":["INSS - PORT + REFIN - NORMAL"],"short":"INSS - PORT + REFIN - NORMAL","incid":"bruto","nTablesOp":14,"rows":[{"label":"108x · A","prazo":108,"FR":3.0,"BR":0.1,"AR":0.0,"FP":2.1,"AP":0.0,"TR":3.1,"TP":2.1,"mg_flat":0.9,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":70.0,"rep_tot":67.74193548387098},{"label":"108x · B","prazo":108,"FR":4.5,"BR":0.2,"AR":0.0,"FP":3.7,"AP":0.0,"TR":4.7,"TP":3.7,"mg_flat":0.8,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":82.22222222222223,"rep_tot":78.72340425531915},{"label":"108x · C","prazo":108,"FR":6.0,"BR":0.25,"AR":0.0,"FP":5.25,"AP":0.0,"TR":6.25,"TP":5.25,"mg_flat":0.75,"mg_adi":0.0,"mg_tot":1.0,"rep_flat":87.5,"rep_tot":84.0},{"label":"108x · D","prazo":108,"FR":6.0,"BR":0.25,"AR":1.0,"FP":6.25,"AP":0.0,"TR":7.25,"TP":6.25,"mg_flat":-0.25,"mg_adi":1.0,"mg_tot":1.0,"rep_flat":104.16666666666667,"rep_tot":86.20689655172413}],"head":"108x · D","flags":[{"kind":"crit","text":"Flat repassado maior que o flat recebido (108x · D)"},{"kind":"info","text":"Parte da margem vem do bônus"}],"notes":["A base traz mais de uma condição para o mesmo prazo, sem indicar o que as diferencia; as letras seguem a ordem crescente de comissão."]}]};
+
+/* ---------- formatação ---------- */
+const NF = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const MINUS = '−';
+const z = v => (Math.abs(v) < 1e-9 ? 0 : v);
+const fNum = v => (z(v) < 0 ? MINUS : '') + NF.format(Math.abs(z(v)));
+const fPct = v => fNum(v) + '%';
+const fPP = v => fNum(v) + ' p.p.';
+const isNeg = v => z(v) < 0;
+const headRow = x => x.rows.find(r => r.label === x.head);
+
+/* ---------- DOM ---------- */
+function h(tag, props, ...kids) {
+  const e = document.createElement(tag);
+  if (props) for (const k in props) {
+    const v = props[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'text') e.textContent = v;
+    else if (k === 'style') Object.assign(e.style, v);
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? '' : String(v));
+  }
+  for (const k of kids.flat(Infinity)) {
+    if (k == null || k === false) continue;
+    e.append(k instanceof Node ? k : document.createTextNode(String(k)));
+  }
+  return e;
+}
+const SVGNS = 'http://www.w3.org/2000/svg';
+function sv(tag, attrs, ...kids) {
+  const e = document.createElementNS(SVGNS, tag);
+  if (attrs) for (const k in attrs) { const v = attrs[k]; if (v != null) e.setAttribute(k, String(v)); }
+  for (const k of kids.flat()) { if (k == null) continue; e.append(k instanceof Node ? k : document.createTextNode(String(k))); }
+  return e;
+}
+function icon(kind) {
+  const g = sv('svg', { viewBox: '0 0 16 16', fill: 'none', 'aria-hidden': 'true' });
+  if (kind === 'info') {
+    g.append(sv('circle', { cx: 8, cy: 8, r: 6.4, stroke: 'currentColor', 'stroke-width': 1.4 }),
+             sv('path', { d: 'M8 7.2v4', stroke: 'currentColor', 'stroke-width': 1.5, 'stroke-linecap': 'round' }),
+             sv('circle', { cx: 8, cy: 4.9, r: .9, fill: 'currentColor' }));
+  } else {
+    g.append(sv('path', { d: 'M8 1.8 14.6 13.6H1.4Z', stroke: 'currentColor', 'stroke-width': 1.3, 'stroke-linejoin': 'round' }),
+             sv('path', { d: 'M8 6.2v3.6', stroke: 'currentColor', 'stroke-width': 1.5, 'stroke-linecap': 'round' }),
+             sv('circle', { cx: 8, cy: 11.6, r: .85, fill: 'currentColor' }));
+  }
+  return g;
+}
+
+/* ---------- estado e filtros ---------- */
+const state = { prod: 'all', banks: new Set(), sort: { key: 'bank', dir: 1 } };
+const current = () => D.sel.filter(x =>
+  (state.prod === 'all' || x.prod === state.prod) &&
+  (state.banks.size === 0 || state.banks.has(x.bankKey)));
+const who = x => `${x.bank} · ${x.prodShort}`;
+
+function buildFilters() {
+  const seg = document.getElementById('f-prod');
+  [['all', 'Todos os produtos'], ['ML', 'Margem Livre'], ['RP', 'Port + Refin']].forEach(([v, label]) =>
+    seg.append(h('button', { type: 'button', class: 'seg-btn', 'data-v': v, onclick: () => { state.prod = v; renderAll(); } }, label)));
+  const chips = document.getElementById('f-bank');
+  chips.append(h('button', { type: 'button', class: 'chip', 'data-v': 'all', onclick: () => { state.banks.clear(); renderAll(); } }, 'Todos os bancos'));
+  D.banks.forEach(b => chips.append(h('button', {
+    type: 'button', class: 'chip', 'data-v': b.key,
+    onclick: () => {
+      if (state.banks.has(b.key)) state.banks.delete(b.key); else state.banks.add(b.key);
+      if (state.banks.size === D.banks.length) state.banks.clear();
+      renderAll();
+    }
+  }, b.name)));
+}
+function syncFilters(list) {
+  document.querySelectorAll('#f-prod .seg-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === state.prod)));
+  document.querySelectorAll('#f-bank .chip').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.v === 'all' ? state.banks.size === 0 : state.banks.has(b.dataset.v))));
+  document.getElementById('f-count').textContent = list.length === D.sel.length ? `${list.length} tabelas` : `${list.length} de ${D.sel.length} tabelas`;
+}
+
+/* ---------- KPIs ---------- */
+function kpi(label, value, sub, mod) {
+  return h('div', { class: 'kpi' + (mod ? ' ' + mod : '') },
+    h('div', { class: 'kpi-label' }, label), h('div', { class: 'kpi-value' }, value), h('div', { class: 'kpi-sub' }, sub));
+}
+function topOf(list, f) {
+  const m = Math.max(...list.map(f));
+  return { m, items: list.filter(x => Math.abs(f(x) - m) < 1e-9) };
+}
+const names = items => items.length <= 2 ? items.map(x => `${who(x)} (${x.head})`).join(' e ') : `${items.length} tabelas empatadas`;
+function renderKPIs(list) {
+  const box = document.getElementById('kpis');
+  const a = topOf(list, x => headRow(x).TR);
+  const b = topOf(list, x => headRow(x).mg_tot);
+  const one = list.filter(x => Math.abs(headRow(x).mg_tot - 1) < 1e-9).length;
+  const over = list.filter(x => x.rows.some(r => r.FP > r.FR + 1e-9)).length;
+  box.replaceChildren(
+    kpi('Maior comissão recebida', fPct(a.m), names(a.items)),
+    kpi('Maior margem total', fPP(b.m), names(b.items)),
+    kpi('Margem total de 1,00 p.p.', `${one} de ${list.length}`, 'tabelas, na condição de maior comissão'),
+    kpi('Flat repassado acima do recebido', `${over} de ${list.length}`, 'tabelas em que o flat do parceiro inclui bônus ou adiantamento'));
+}
+
+/* ---------- Etapa 1 ---------- */
+function renderMatrix(list) {
+  const t = document.getElementById('matrix');
+  const showML = state.prod !== 'RP', showRP = state.prod !== 'ML';
+  const cell = x => {
+    if (!x) return h('td', null, '—');
+    const r = headRow(x);
+    return h('td', null, h('div', { class: 'mx-name' }, x.short),
+      h('div', { class: 'mx-meta' }, `${fPct(r.TR)} de comissão recebida · ${r.label} · ${x.incid}`));
+  };
+  const tb = h('tbody');
+  D.banks.filter(b => list.some(x => x.bankKey === b.key)).forEach(b => {
+    const ml = list.find(x => x.bankKey === b.key && x.prod === 'ML');
+    const rp = list.find(x => x.bankKey === b.key && x.prod === 'RP');
+    tb.append(h('tr', null,
+      h('th', { scope: 'row' }, h('a', { href: '#b-' + b.key }, `${b.order}. ${b.name}`)),
+      showML && cell(ml), showRP && cell(rp)));
+  });
+  t.replaceChildren(
+    h('caption', { class: 'sr-only' }, 'Tabelas selecionadas por banco e produto'),
+    h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Banco'),
+      showML && h('th', { scope: 'col' }, 'Tabela 1 · Margem Livre (Novo)'),
+      showRP && h('th', { scope: 'col' }, 'Tabela 2 · Port + Refin'))),
+    tb);
+}
+
+/* ---------- cartões por banco ---------- */
+const IND = [
+  { k: 'FR', label: 'Flat recebido', f: fPct, grp: 'rec' },
+  { k: 'BR', label: 'Bônus recebido', f: fPct, grp: 'rec' },
+  { k: 'AR', label: 'Adiantamento recebido', f: fPct, grp: 'rec' },
+  { k: 'TR', label: 'Total recebido', f: fPct, grp: 'rec', strong: true },
+  { k: 'FP', label: 'Flat repassado', f: fPct, grp: 'rep' },
+  { k: 'AP', label: 'Adiantamento repassado', f: fPct, grp: 'rep' },
+  { k: 'TP', label: 'Total repassado', f: fPct, grp: 'rep', strong: true },
+  { k: 'mg_flat', label: 'Margem de flat', hint: 'Flat rec. − Flat rep.', f: fPP, grp: 'mg', sign: true },
+  { k: 'mg_adi', label: 'Margem de adiantamento', hint: 'Adiant. rec. − Adiant. rep.', f: fPP, grp: 'mg', sign: true },
+  { k: 'mg_tot', label: 'Margem total', hint: 'Total rec. − Total rep.', f: fPP, grp: 'mg', sign: true, strong: true, accent: true },
+  { k: 'rep_flat', label: 'Repasse do flat', hint: 'Flat rep. ÷ Flat rec.', f: fPct, grp: 'rp', over: true },
+  { k: 'rep_tot', label: 'Repasse do total', hint: 'Total rep. ÷ Total rec.', f: fPct, grp: 'rp' },
+];
+function condTable(x) {
+  let prev = null;
+  const body = h('tbody', null, IND.map(ind => {
+    const cls = [ind.grp !== prev && prev !== null ? 'grp-start' : '', ind.strong ? 'strong' : '', ind.accent ? 'accent' : ''].filter(Boolean).join(' ');
+    prev = ind.grp;
+    return h('tr', { class: cls || null },
+      h('th', { scope: 'row', title: ind.hint || null }, ind.label),
+      x.rows.map(r => {
+        const v = r[ind.k];
+        const bad = (ind.sign && isNeg(v)) || (ind.over && v > 100 + 1e-9);
+        return h('td', { class: bad ? 'neg' : null }, v == null ? 'N/D' : ind.f(v));
+      }));
+  }));
+  return h('table', { class: 'cond' },
+    h('caption', { class: 'sr-only' }, `Percentuais por condição: ${who(x)}`),
+    h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Prazo / condição'),
+      x.rows.map(r => h('th', { scope: 'col', class: r.label === x.head ? 'is-head' : null }, r.label)))),
+    body);
+}
+const partsRec = r => [`flat ${fNum(r.FR)}`, r.BR ? `bônus ${fNum(r.BR)}` : null, r.AR ? `adiant. ${fNum(r.AR)}` : null].filter(Boolean).join(' + ');
+const partsRep = r => [`flat ${fNum(r.FP)}`, r.AP ? `adiant. ${fNum(r.AP)}` : null].filter(Boolean).join(' + ');
+function fig(k, v, c, mod, cNeg) {
+  return h('div', { class: 'fig' + (mod ? ' ' + mod : '') }, h('span', { class: 'k' }, k), h('span', { class: 'v' }, v), h('span', { class: 'c' + (cNeg ? ' neg' : '') }, c));
+}
+function summary(x) {
+  const r = headRow(x);
+  return h('section', { class: 'sum', 'aria-label': `Tabela ${x.tabNo}, ${x.prodFull}` },
+    h('div', { class: 'panel-tag' }, `Tabela ${x.tabNo} · ${x.prodFull}`),
+    x.tables.length === 1 ? h('h4', { class: 'tab-name' }, x.tables[0]) : h('ul', { class: 'tab-names' }, x.tables.map(t => h('li', null, t))),
+    h('p', { class: 'panel-meta' }, `Operação: ${x.opBase} · Incidência: ${x.incid} · Condição em destaque: ${r.label}`),
+    h('div', { class: 'trio' },
+      fig('Recebemos', fPct(r.TR), partsRec(r)),
+      fig('Repassamos', fPct(r.TP), partsRep(r)),
+      fig('Margem total', fPP(r.mg_tot), `de flat: ${fPP(r.mg_flat)}`, 'accent', isNeg(r.mg_flat))),
+    x.flags.length ? h('ul', { class: 'flags' }, x.flags.map(f => h('li', { class: 'flag ' + f.kind }, icon(f.kind), f.text))) : null);
+}
+function detailPanel(x) {
+  return h('section', { class: 'panel', 'aria-label': `Condições da Tabela ${x.tabNo}, ${x.prodFull}` },
+    h('div', { class: 'panel-tag' }, `Tabela ${x.tabNo} · ${x.prodFull}`),
+    h('div', { class: 'table-wrap' }, condTable(x)),
+    x.notes.length ? h('ul', { class: 'notes' }, x.notes.map(n => h('li', null, n))) : null);
+}
+const openDetails = new Set();
+function renderBanks(list) {
+  const box = document.getElementById('bank-list');
+  box.replaceChildren(...D.banks.filter(b => list.some(x => x.bankKey === b.key)).map(b => {
+    const items = list.filter(x => x.bankKey === b.key);
+    const both = D.sel.filter(x => x.bankKey === b.key);
+    const nCond = items.reduce((s, x) => s + x.rows.length, 0);
+    const det = h('details', { class: 'more', open: openDetails.has(b.key) || null },
+      h('summary', null, `Ver todas as condições da base (${nCond})`),
+      h('div', { class: 'panels' + (items.length === 1 ? ' single' : '') }, items.map(detailPanel)));
+    det.addEventListener('toggle', () => { if (det.open) openDetails.add(b.key); else openDetails.delete(b.key); });
+    return h('article', { class: 'bank', id: 'b-' + b.key, 'aria-labelledby': 'bh-' + b.key },
+      h('header', { class: 'bank-head' },
+        h('span', { class: 'bank-no' }, `${b.order}.`),
+        h('h3', { id: 'bh-' + b.key }, b.name),
+        h('span', { class: 'bank-pill' }, 'Margem total: ' + both.map(x => `${x.prodShort} ${fPP(headRow(x).mg_tot)}`).join(' · '))),
+      h('p', { class: 'bank-concl' }, h('strong', null, 'Conclusão. '), b.concl),
+      h('div', { class: 'panels' + (items.length === 1 ? ' single' : '') }, items.map(summary)),
+      det);
+  }));
+}
+
+/* ---------- bancos lado a lado (gráficos) ---------- */
+const BANK_SHORT = { facta: 'FACTA', fox: 'FOX', happy: 'HAPPY', quali: 'QUALI', bmg: 'BMG', c6: 'C6', icred: 'ICRED' };
+const PROD_LABEL = { ML: 'Margem Livre (Novo)', RP: 'Port + Refin' };
+const shownProds = () => (state.prod === 'all' ? ['ML', 'RP'] : [state.prod]);
+const shownBanks = list => D.banks.filter(b => list.some(x => x.bankKey === b.key));
+const bankLabel = (b, slot) => (slot >= 124 ? b.name : BANK_SHORT[b.key]);
+function attachTip(g, lines) {
+  g.addEventListener('pointerenter', e => showTip(lines(), e.clientX, e.clientY));
+  g.addEventListener('pointermove', e => placeTip(e.clientX, e.clientY));
+  g.addEventListener('pointerleave', hideTip);
+  g.addEventListener('focus', () => { const b = g.getBoundingClientRect(); showTip(lines(), b.left + b.width / 2, b.top + 24); });
+  g.addEventListener('blur', hideTip);
+}
+function tipBank(o) {
+  const r = o.r;
+  return [h('div', { class: 'tt-h' }, who(o.x)),
+    h('div', { class: 'tt-s' }, `${o.x.short} · ${r.label}`),
+    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TR)), ` recebido (${partsRec(r)})`),
+    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TP)), ` repassado (${partsRep(r)})`),
+    h('div', { class: 'tt-r' }, h('b', null, fPP(r.mg_tot)), ' de margem total'),
+    h('div', { class: 'tt-r' }, h('b', null, fPP(r.mg_flat)), ` de margem de flat (${fNum(r.FR)} − ${fNum(r.FP)})`)];
+}
+function roundedTop(x, y, w, hgt, r) {
+  if (hgt <= 0) return '';
+  r = Math.min(r, w / 2, hgt);
+  return `M${x},${y + hgt}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + hgt}Z`;
+}
+function roundedBottom(x, y, w, hgt, r) {
+  if (hgt <= 0) return '';
+  r = Math.min(r, w / 2, hgt);
+  return `M${x},${y}H${x + w}V${y + hgt - r}Q${x + w},${y + hgt} ${x + w - r},${y + hgt}H${x + r}Q${x},${y + hgt} ${x},${y + hgt - r}Z`;
+}
+function miniPlots(hostId, prods) {
+  const host = document.getElementById(hostId);
+  host.replaceChildren(...prods.map(p => h('figure', { class: 'mini' }, h('figcaption', null, PROD_LABEL[p]), h('div', { class: 'mini-plot', 'data-prod': p }))));
+  return [...host.querySelectorAll('.mini-plot')];
+}
+function bankFrame(div, banks, H) {
+  const W = Math.max(260, Math.round(div.clientWidth || 520));
+  const side = 2, slot = (W - 2 * side) / banks.length;
+  return { W, H, side, slot, bw: Math.min(36, Math.max(14, slot * 0.46)), narrow: slot < 70, tight: slot < 58,
+    svg: sv('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: 'none' }) };
+}
+function renderStackChart(list) {
+  const prods = shownProds(), banks = shownBanks(list);
+  const items = list.map(x => ({ x, r: headRow(x) }));
+  const yMax = Math.max(2, Math.ceil(Math.max(...items.map(o => o.r.TR)) / 2) * 2);
+  document.getElementById('bc1-title').textContent = 'Comissão recebida: ' + prods.map(p => {
+    const v = items.filter(o => o.x.prod === p).map(o => o.r.TR);
+    return `${p === 'ML' ? 'Margem Livre' : 'Port + Refin'} de ${fPct(Math.min(...v))} a ${fPct(Math.max(...v))}`;
+  }).join(' · ');
+  miniPlots('bc1', prods).forEach(div => {
+    const p = div.dataset.prod;
+    const f = bankFrame(div, banks, 294), top = 46, bottom = 30;
+    const plotH = f.H - top - bottom;
+    const Y = v => top + plotH - (v / yMax) * plotH;
+    f.svg.append(sv('line', { x1: f.side, x2: f.W - f.side, y1: Y(0), y2: Y(0), class: 'base' }));
+    banks.forEach((b, i) => {
+      const o = items.find(o => o.x.bankKey === b.key && o.x.prod === p);
+      const cx = f.side + f.slot * (i + .5);
+      const g = sv('g', { class: 'bc-col', tabindex: o ? 0 : null, role: 'listitem',
+        'aria-label': o ? `${b.name}, ${PROD_LABEL[p]}: recebido ${fPct(o.r.TR)}, repassado ${fPct(o.r.TP)}, margem total ${fPP(o.r.mg_tot)}` : `${b.name}: sem tabela` });
+      g.append(sv('rect', { x: cx - f.slot / 2 + 1, y: 2, width: Math.max(0, f.slot - 2), height: f.H - 4, rx: 6, class: 'hit' }));
+      if (o) {
+        const x0 = cx - f.bw / 2, yTP = Y(o.r.TP), yTR = Y(o.r.TR);
+        g.append(sv('rect', { x: x0, y: yTP, width: f.bw, height: Math.max(0, Y(0) - yTP), class: 'seg-rep' }));
+        g.append(sv('path', { d: roundedTop(x0, yTR, f.bw, Math.max(0, yTP - 2 - yTR), 4), class: 'seg-mg' }));
+        g.append(sv('text', { x: cx, y: yTR - 7, class: 'bc-v' + (f.tight ? ' tight' : ''), 'text-anchor': 'middle' }, f.tight ? fNum(o.r.TR) : fPct(o.r.TR)));
+        g.append(sv('text', { x: cx, y: yTR - (f.tight ? 21 : 23), class: 'bc-m' + (f.tight ? ' tight' : ''), 'text-anchor': 'middle' }, f.narrow ? fNum(o.r.mg_tot) : fPP(o.r.mg_tot)));
+        attachTip(g, () => tipBank(o));
+      }
+      g.append(sv('text', { x: cx, y: f.H - 9, class: 'bc-x', 'text-anchor': 'middle' }, bankLabel(b, f.slot)));
+      f.svg.append(g);
+    });
+    div.replaceChildren(f.svg);
+  });
+}
+function renderMarginChart(list) {
+  const prods = shownProds(), banks = shownBanks(list);
+  const items = list.map(x => ({ x, r: headRow(x) }));
+  const vals = items.map(o => o.r.mg_flat);
+  const lo = Math.min(0, Math.floor(Math.min(...vals))), hi = Math.max(1, Math.ceil(Math.max(...vals)));
+  document.getElementById('bc2-title').textContent = 'Margem de flat negativa em ' + prods.map(p => {
+    const its = items.filter(o => o.x.prod === p);
+    return `${its.filter(o => isNeg(o.r.mg_flat)).length} de ${its.length} ${its.length === 1 ? 'banco' : 'bancos'} em ${p === 'ML' ? 'Margem Livre' : 'Port + Refin'}`;
+  }).join(' e ');
+  miniPlots('bc2', prods).forEach(div => {
+    const p = div.dataset.prod;
+    const f = bankFrame(div, banks, 284), top = 26, bottom = 32;
+    const plotH = f.H - top - bottom;
+    const Y = v => top + (hi - v) / (hi - lo) * plotH;
+    f.svg.append(sv('line', { x1: f.side, x2: f.W - f.side, y1: Y(0), y2: Y(0), class: 'base' }));
+    banks.forEach((b, i) => {
+      const o = items.find(o => o.x.bankKey === b.key && o.x.prod === p);
+      const cx = f.side + f.slot * (i + .5);
+      const g = sv('g', { class: 'bc-col', tabindex: o ? 0 : null, role: 'listitem',
+        'aria-label': o ? `${b.name}, ${PROD_LABEL[p]}: margem de flat ${fPP(o.r.mg_flat)}` : `${b.name}: sem tabela` });
+      g.append(sv('rect', { x: cx - f.slot / 2 + 1, y: 2, width: Math.max(0, f.slot - 2), height: f.H - 4, rx: 6, class: 'hit' }));
+      if (o) {
+        const v = z(o.r.mg_flat), x0 = cx - f.bw / 2, y0 = Y(0), y1 = Y(v);
+        if (v > 0) g.append(sv('path', { d: roundedTop(x0, y1, f.bw, y0 - y1, 4), class: 'seg-mg' }));
+        if (v < 0) g.append(sv('path', { d: roundedBottom(x0, y0, f.bw, y1 - y0, 4), class: 'seg-neg' }));
+        g.append(sv('text', { x: cx, y: v < 0 ? y1 + 15 : y1 - 7, class: 'bc-v' + (v < 0 ? ' bc-neg' : '') + (f.tight ? ' tight' : ''), 'text-anchor': 'middle' }, f.narrow ? fNum(v) : fPP(v)));
+        attachTip(g, () => tipBank(o));
+      }
+      g.append(sv('text', { x: cx, y: f.H - 9, class: 'bc-x', 'text-anchor': 'middle' }, bankLabel(b, f.slot)));
+      f.svg.append(g);
+    });
+    div.replaceChildren(f.svg);
+  });
+}
+
+/* ---------- 1º ranking (gráfico) ---------- */
+function rankBy(list, f, tie) {
+  const rows = list.map(x => ({ x, r: headRow(x) }));
+  rows.sort((a, b) => f(b) - f(a) || (tie ? tie(b) - tie(a) : 0) || a.x.order - b.x.order || a.x.tabNo - b.x.tabNo);
+  let pos = 0, prev = null;
+  rows.forEach((o, i) => {
+    const key = f(o).toFixed(4) + '|' + (tie ? tie(o).toFixed(4) : '');
+    if (key !== prev) { pos = i + 1; prev = key; }
+    o.pos = pos;
+  });
+  return rows;
+}
+const tip = document.getElementById('tip');
+function tipLines(o) {
+  const r = o.r;
+  return [h('div', { class: 'tt-h' }, `${o.pos}º · ${who(o.x)}`),
+    h('div', { class: 'tt-s' }, `${o.x.short} · ${r.label}`),
+    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TR)), ` recebido (${partsRec(r)})`),
+    h('div', { class: 'tt-r' }, h('b', null, fPct(r.TP)), ` repassado (${partsRep(r)})`),
+    h('div', { class: 'tt-r' }, h('b', null, fPP(r.mg_tot)), ` margem total · flat ${fPP(r.mg_flat)}`),
+    h('div', { class: 'tt-r' }, h('b', null, fPct(r.rep_tot)), ' do recebido vai ao parceiro')];
+}
+function placeTip(x, y) {
+  const pad = 14, w = tip.offsetWidth, hh = tip.offsetHeight;
+  let left = x + pad, top = y + pad;
+  if (left + w > innerWidth - 8) left = x - w - pad;
+  if (top + hh > innerHeight - 8) top = y - hh - pad;
+  tip.style.left = Math.max(8, left) + 'px';
+  tip.style.top = Math.max(8, top) + 'px';
+}
+function showTip(lines, x, y) { tip.replaceChildren(...lines); tip.hidden = false; placeTip(x, y); }
+function hideTip() { tip.hidden = true; }
+function roundedRight(x, y, w, hgt, r) {
+  if (w <= 0) return '';
+  r = Math.min(r, w / 2, hgt / 2);
+  return `M${x},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + hgt - r}Q${x + w},${y + hgt} ${x + w - r},${y + hgt}H${x}Z`;
+}
+let lastW = 0;
+function renderChart1(list) {
+  const host = document.getElementById('chart1');
+  const rows = rankBy(list, o => o.r.TR);
+  const minTR = Math.min(...rows.map(o => o.r.TR)), maxTR = Math.max(...rows.map(o => o.r.TR));
+  const minMg = Math.min(...rows.map(o => o.r.mg_tot)), maxMg = Math.max(...rows.map(o => o.r.mg_tot));
+  const title = rows.length === 1
+    ? `Recebemos ${fPct(maxTR)} e a margem total é de ${fPP(maxMg)}`
+    : `Recebemos de ${fPct(minTR)} a ${fPct(maxTR)}; a margem total fica ` + (Math.abs(maxMg - minMg) < 1e-9 ? `em ${fPP(maxMg)}` : `entre ${fPP(minMg)} e ${fPP(maxMg)}`);
+  document.getElementById('c1-title').textContent = title;
+  const W = Math.max(280, Math.round(host.clientWidth || 720));
+  lastW = W;
+  const compact = W < 640;
+  const n = rows.length;
+  const rowH = compact ? 46 : 34, barH = compact ? 14 : 16;
+  const labelW = compact ? 0 : 270, right = compact ? 112 : 176, top = 4, axisH = 24;
+  const plotW = Math.max(120, W - labelW - right);
+  const xMax = Math.max(2, Math.ceil(maxTR / 2) * 2);
+  const X = v => labelW + (v / xMax) * plotW;
+  const H = top + n * rowH + axisH;
+  const svg = sv('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: 'none' });
+  const gGrid = sv('g');
+  for (let t = 0; t <= xMax; t += 2) {
+    gGrid.append(sv('line', { x1: X(t), x2: X(t), y1: top, y2: top + n * rowH, class: t === 0 ? 'base' : 'grid' }));
+    gGrid.append(sv('text', { x: X(t), y: top + n * rowH + 17, class: 'tick', 'text-anchor': t === 0 ? 'start' : (t === xMax ? 'end' : 'middle') }, `${t}%`));
+  }
+  svg.append(gGrid);
+  rows.forEach((o, i) => {
+    const y0 = top + i * rowH;
+    const by = compact ? y0 + 23 : y0 + (rowH - barH) / 2;
+    const g = sv('g', { class: 'c1-row', tabindex: 0, role: 'listitem',
+      'aria-label': `${o.pos}º ${who(o.x)}: recebido ${fPct(o.r.TR)}, repassado ${fPct(o.r.TP)}, margem total ${fPP(o.r.mg_tot)}` });
+    g.append(sv('rect', { x: 0, y: y0 + 1, width: W, height: rowH - 2, rx: 4, class: 'hit' }));
+    const label = sv('text', { class: 'c1-label', x: compact ? 0 : labelW - 12, y: compact ? y0 + 16 : by + barH / 2 + 4.5, 'text-anchor': compact ? 'start' : 'end' },
+      sv('tspan', { class: 'pos' }, `${o.pos}º `), `${o.x.bank} · ${o.x.prodShort}`);
+    g.append(label);
+    const val = sv('text', { class: 'c1-val', x: X(o.r.TR) + 8, y: by + barH / 2 + 4.5 },
+      sv('tspan', { class: 'v' }, fPct(o.r.TR)), sv('tspan', { class: 'm', dx: compact ? 5 : 7 }, compact ? `· ${fPP(o.r.mg_tot)}` : `margem ${fPP(o.r.mg_tot)}`));
+    g.append(val);
+    const xr = X(o.r.TP), xe = X(o.r.TR);
+    g.append(sv('rect', { x: X(0), y: by, width: Math.max(0, xr - X(0)), height: barH, class: 'seg-rep' }));
+    const mx = xr + 2;
+    g.append(sv('path', { d: roundedRight(mx, by, Math.max(0, xe - mx), barH, 4), class: 'seg-mg' }));
+    g.addEventListener('pointerenter', e => showTip(tipLines(o), e.clientX, e.clientY));
+    g.addEventListener('pointermove', e => placeTip(e.clientX, e.clientY));
+    g.addEventListener('pointerleave', hideTip);
+    g.addEventListener('focus', () => { const b = g.getBoundingClientRect(); showTip(tipLines(o), b.left + Math.min(b.width - 20, 260), b.top + b.height / 2); });
+    g.addEventListener('blur', hideTip);
+    svg.append(g);
+  });
+  host.replaceChildren(svg);
+}
+
+/* ---------- 2º ranking ---------- */
+function renderRank2(list) {
+  const rows = rankBy(list, o => o.r.mg_tot, o => o.r.mg_flat);
+  document.getElementById('rank2').replaceChildren(...rows.map(o => h('li', { class: 'r2' },
+    h('span', { class: 'r2-pos' }, `${o.pos}º`),
+    h('span', { class: 'r2-who' }, h('strong', null, who(o.x)), h('span', { class: 'r2-tab' }, `${o.x.short} · ${o.r.label}`)),
+    h('span', { class: 'r2-val' }, h('strong', null, fPP(o.r.mg_tot)), h('span', { class: 'r2-flat' + (isNeg(o.r.mg_flat) ? ' neg' : '') }, `flat ${fPP(o.r.mg_flat)}`)))));
+}
+
+/* ---------- visão executiva ---------- */
+const COLS = [
+  { k: 'bank', label: 'Banco', l: true, sortv: o => o.x.order * 10 + o.x.tabNo, dir: 1 },
+  { k: 'tab', label: 'Tabela', l: true, tab: true, sortv: o => o.x.tabNo * 10 + o.x.order, dir: 1 },
+  { k: 'FR', label: 'Flat recebido', f: fPct },
+  { k: 'FP', label: 'Flat repassado', f: fPct },
+  { k: 'mg_flat', label: 'Margem de flat', f: fPP, sign: true },
+  { k: 'BR', label: 'Bônus recebido', f: fPct },
+  { k: 'AR', label: 'Adiant. recebido', f: fPct },
+  { k: 'AP', label: 'Adiant. repassado', f: fPct },
+  { k: 'mg_adi', label: 'Margem de adiant.', f: fPP, sign: true },
+  { k: 'mg_tot', label: 'Margem total', f: fPP, sign: true, acc: true },
+];
+function renderExec(list) {
+  const t = document.getElementById('exec');
+  const rows = list.map(x => ({ x, r: headRow(x) }));
+  const col = COLS.find(c => c.k === state.sort.key) || COLS[0];
+  const sv_ = c => c.sortv || (c.f ? (o => o.r[c.k]) : (o => o.x.order * 10 + o.x.tabNo));
+  rows.sort((a, b) => (sv_(col)(a) - sv_(col)(b)) * state.sort.dir || a.x.order - b.x.order || a.x.tabNo - b.x.tabNo);
+  const head = h('tr', null, COLS.map(c => {
+    const active = c.k === state.sort.key;
+    const th = h('th', { scope: 'col', class: c.l ? 'l' : null, 'aria-sort': active ? (state.sort.dir > 0 ? 'ascending' : 'descending') : null });
+    if (c.nd) { th.append(c.label); return th; }
+    th.append(h('button', { type: 'button', onclick: () => {
+      if (state.sort.key === c.k) state.sort.dir *= -1; else { state.sort.key = c.k; state.sort.dir = c.dir || -1; }
+      renderExec(current());
+    } }, c.label, h('span', { class: 'arrow', 'aria-hidden': 'true' }, active ? (state.sort.dir > 0 ? '▲' : '▼') : '')));
+    return th;
+  }));
+  const body = h('tbody', null, rows.map(o => h('tr', null, COLS.map(c => {
+    if (c.k === 'bank') return h('td', { class: 'l' }, h('span', { class: 'who' }, o.x.bank), h('span', { class: 'sub' }, o.x.prodShort));
+    if (c.tab) return h('td', { class: 'l tabcell' }, o.x.short, h('span', { class: 'sub' }, `${o.r.label} · ${o.x.incid}`));
+    if (c.nd) return h('td', { class: 'nd' }, 'N/D');
+    const v = o.r[c.k];
+    return h('td', { class: (c.sign && isNeg(v)) ? 'neg' : (c.acc ? 'acc' : null) }, c.f(v));
+  }))));
+  t.replaceChildren(h('caption', { class: 'sr-only' }, 'Visão executiva das tabelas selecionadas'), h('thead', null, head), body);
+}
+
+/* ---------- repasse ---------- */
+const BAR_MAX = 210;
+function rbar(v) {
+  const w100 = 100 / BAR_MAX * 100, wv = Math.min(v, BAR_MAX) / BAR_MAX * 100;
+  const track = h('div', { class: 'rbar-track', 'aria-hidden': 'true' },
+    h('div', { class: 'rbar-fill', style: { width: Math.min(wv, w100) + '%', borderRadius: v >= 100 - 1e-9 ? '3px 0 0 3px' : '3px' } }),
+    v > 100 + 1e-9 ? h('div', { class: 'rbar-over', style: { left: w100 + '%', width: (wv - w100) + '%' } }) : null,
+    h('div', { class: 'rbar-100', style: { left: w100 + '%' } }));
+  return h('div', { class: 'rbar' }, track, h('span', { class: 'rbar-v' + (v > 100 + 1e-9 ? ' neg' : '') }, fPct(v)));
+}
+function renderRepasse(list) {
+  const rows = rankBy(list, o => o.r.rep_flat, o => o.r.rep_tot);
+  const t = document.getElementById('repasse');
+  t.replaceChildren(
+    h('caption', { class: 'sr-only' }, 'Repasse sobre a comissão recebida'),
+    h('thead', null, h('tr', null,
+      h('th', { scope: 'col', class: 'l' }, '#'), h('th', { scope: 'col', class: 'l' }, 'Banco · tabela'),
+      h('th', { scope: 'col' }, 'Flat recebido'), h('th', { scope: 'col' }, 'Flat repassado'), h('th', { scope: 'col' }, 'Repasse do flat'),
+      h('th', { scope: 'col' }, 'Total recebido'), h('th', { scope: 'col' }, 'Total repassado'), h('th', { scope: 'col' }, 'Repasse do total'))),
+    h('tbody', null, rows.map(o => h('tr', null,
+      h('td', { class: 'l' }, `${o.pos}º`),
+      h('td', { class: 'l tabcell' }, h('span', { class: 'who' }, who(o.x)), h('span', { class: 'sub' }, `${o.x.short} · ${o.r.label}`)),
+      h('td', null, fPct(o.r.FR)), h('td', null, fPct(o.r.FP)), h('td', null, rbar(o.r.rep_flat)),
+      h('td', null, fPct(o.r.TR)), h('td', null, fPct(o.r.TP)), h('td', null, rbar(o.r.rep_tot))))));
+}
+
+/* ---------- montagem ---------- */
+function renderAll() {
+  const list = current();
+  syncFilters(list);
+  renderKPIs(list);
+  renderMatrix(list);
+  renderStackChart(list);
+  renderMarginChart(list);
+  renderBanks(list);
+  renderChart1(list);
+  renderRank2(list);
+  renderExec(list);
+  renderRepasse(list);
+}
+function init() {
+  const m = D.meta;
+  document.getElementById('asof').textContent = `Base ${m.file} · ${m.date} · convênio ${m.conv.join(', ')} · ${m.nTab} tabelas na base`;
+  document.getElementById('foot-src').textContent =
+    `Fonte: ${m.file} (${m.date}) · ${m.nRaw} linhas, das quais ${m.nDup} duplicadas idênticas foram desconsideradas (${m.nRows} analisadas) · ${m.nTab} tabelas · ${D.banks.length} bancos · convênio ${m.conv.join(', ')}.`;
+  buildFilters();
+  renderAll();
+  const pageEl = document.querySelector('.page');
+  if ('ResizeObserver' in window) {
+    let raf = 0, lastPage = Math.round(pageEl.clientWidth);
+    new ResizeObserver(() => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const w = Math.round(pageEl.clientWidth);
+        if (Math.abs(w - lastPage) > 2) { lastPage = w; const l = current(); renderStackChart(l); renderMarginChart(l); renderChart1(l); }
+      });
+    }).observe(pageEl);
+  }
+  window.addEventListener('scroll', hideTip, { passive: true });
+}
+init();
+</script>
+</body>
+</html>
